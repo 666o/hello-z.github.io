@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="如题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java初级：类和对象">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;04&#x2F;27&#x2F;java%E5%88%9D%E7%BA%A7%EF%BC%9A%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="如题">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E9%87%8D%E5%9B%9Ejava,%E6%9C%89%E5%AF%B9%E8%B1%A1%E6%89%8D%E5%A5%BD%E5%95%8A&#x2F;java.png">
+<meta property="og:updated_time" content="2019-11-28T12:59:09.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E9%87%8D%E5%9B%9Ejava,%E6%9C%89%E5%AF%B9%E8%B1%A1%E6%89%8D%E5%A5%BD%E5%95%8A&#x2F;java.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/04/27/java%E5%88%9D%E7%BA%A7%EF%BC%9A%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>java初级：类和对象 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/java%E5%88%9D%E7%BA%A7%EF%BC%9A%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java初级：类和对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-27 12:53:32" itemprop="dateCreated datePublished" datetime="2019-04-27T12:53:32+08:00">2019-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-28 20:59:09" itemprop="dateModified" datetime="2019-11-28T20:59:09+08:00">2019-11-28</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/image/%E9%87%8D%E5%9B%9Ejava,%E6%9C%89%E5%AF%B9%E8%B1%A1%E6%89%8D%E5%A5%BD%E5%95%8A/java.png" alt="setup"></p>
+<p>如题</p>
+<a id="more"></a>
+<hr>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><code>new Hero()</code><br>代表<strong>创建</strong>了一个Hero对象<br>但是也仅仅是创建，没有办法访问</p>
+<p><strong>好像你有一个气球，但是它飘在空中，你够不着</strong><br><strong>所以你需要一条线把它牵住，这条线就是引用</strong></p>
+<p><code>Hero h = new Hero()</code></p>
+<p>引用有多个，但是对象只有一个<br>好比气球独一无二，但是牵它的线可以有多条</p>
+<p>当对象没有引用的时候，它就没有意义了<br>就会被java的回收机制给删除</p>
+<hr>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>继承可以使得子类别具有父类别的各种属性和方法，而不需要再次编写相同的代码。</p>
+<p>子类拥有父类的特征，而父类没有，父类更通用，子类更具体</p>
+<p>使用extends继承父类，语句格式：class 子类名 extends 父类名{}</p>
+<hr>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>通过一个类创建一个对象，这个过程叫做<strong>实例化</strong><br>实例化是通过调用<strong>构造方法</strong>实现的</p>
+<h3 id="什么是构造方法"><a href="#什么是构造方法" class="headerlink" title="什么是构造方法"></a>什么是构造方法</h3><p>方法名和类名一样（包括大小写）</p>
+<p><strong>没有返回类型</strong></p>
+<p>实例化一个对象的时候，必然调用构造方法</p>
+<h3 id="隐式的构造方法"><a href="#隐式的构造方法" class="headerlink" title="隐式的构造方法"></a>隐式的构造方法</h3><p>无参的构造方法，如果不写，就会默认提供一个</p>
+<h3 id="有参的构造方法"><a href="#有参的构造方法" class="headerlink" title="有参的构造方法"></a>有参的构造方法</h3><p>一旦提供了一个有参的构造方法<br>同时又没有显式的提供一个无参的构造方法<br>那么默认的无参的构造方法就会消失</p>
+<p>构造方法也可重载</p>
+<hr>
+<h2 id="This"><a href="#This" class="headerlink" title="This"></a>This</h2><p>this代表当前对象，和python中的self类似</p>
+<p>可以通过this来访问对象的属性</p>
+<p>可以通过this来调用构造方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//带一个参数的构造方法</span><br><span class="line">   public Hero(String name)&#123;</span><br><span class="line">       this.name = name;</span><br><span class="line">   &#125;</span><br><span class="line">     </span><br><span class="line">   //带两个参数的构造方法</span><br><span class="line">   public Hero(String name,float hp)&#123;</span><br><span class="line">       this(name);</span><br><span class="line">       this.hp = hp;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包: package</p>
+<p>把比较接近的类，规划在同一个包下</p>
+<p>使用同一个包下的其他类，直接使用即可<br>但是要使用其他包下的类，必须import</p>
+<hr>
+<h2 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h2><p><strong>private</strong> 私有的<br><strong>package/friendly/default</strong> 不写<br><strong>protected</strong> 受保护的<br><strong>public</strong> 公共的</p>
+<h3 id="情况选择"><a href="#情况选择" class="headerlink" title="情况选择"></a>情况选择</h3><ol>
+<li>属性通常使用private封装起来</li>
+<li>方法一般使用public用于被调用</li>
+<li>会被子类继承的方法，通常使用protected</li>
+<li>package用的不多，一般新手会用package,因为还不知道有修饰符这个东西</li>
+</ol>
+<p>再就是作用范围最小原则<br>简单说，能用private就用private，不行就放大一级，用package,再不行就用protected，最后用public。 这样就能把数据尽量的封装起来，没有必要露出来的，就不用露出来了</p>
+<hr>
+<h2 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h2><p>当一个属性被<strong>static</strong>修饰的时候，就叫做类属性，又叫做静态属性<br>当一个属性被声明成类属性，那么<strong>所有的对象，都共享一个值</strong></p>
+<p>可以通过类直接访问类变量</p>
+<hr>
+<h2 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h2><p>类方法： 又叫做静态方法</p>
+<p>对象方法： 又叫实例方法，非静态方法</p>
+<p>访问一个对象方法，必须建立在有一个对象的前提的基础上<br>访问类方法，不需要对象的存在，直接就访问</p>
+<hr>
+<h2 id="属性初始化"><a href="#属性初始化" class="headerlink" title="属性初始化"></a>属性初始化</h2><p>对象属性初始化有3种</p>
+<ol>
+<li>声明该属性的时候初始化</li>
+<li>构造方法中初始化</li>
+<li>初始化块</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Hero &#123;</span><br><span class="line">    public String name = &quot;some hero&quot;; //声明该属性的时候初始化</span><br><span class="line">    protected float hp;</span><br><span class="line">    float maxHP;</span><br><span class="line">     </span><br><span class="line">    &#123;</span><br><span class="line">        maxHP = 200; //初始化块</span><br><span class="line">    &#125;  </span><br><span class="line">     </span><br><span class="line">    public Hero()&#123;</span><br><span class="line">        hp = 100; //构造方法中初始化</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>顺序为 声明=&gt;初始化块=&gt;构造方法</p>
+<p>只要有构造方法，应该是按构造方法来</p>
+<p>类属性初始化有2种</p>
+<ol>
+<li>声明该属性的时候初始化</li>
+<li>静态初始化块</li>
+</ol>
+<hr>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>单例模式又叫做 Singleton模式，指的是一个类，在一个JVM里，只有<strong>一个实例</strong>存在。</p>
+<h3 id="饿汉单例模式"><a href="#饿汉单例模式" class="headerlink" title="饿汉单例模式"></a>饿汉单例模式</h3><p>通过私有化其构造方法，使得外部无法通过new 得到新的实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Hero &#123;</span><br><span class="line"> </span><br><span class="line">    //私有化构造方法使得该类无法在外部通过new 进行实例化</span><br><span class="line">    private Hero()&#123;</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    //准备一个类属性，指向一个实例化对象。 因为是类属性，所以只有一个</span><br><span class="line"> </span><br><span class="line">    private static Hero instance = new Hero();</span><br><span class="line">     </span><br><span class="line">    //public static 方法，提供给调用者获取定义的对象</span><br><span class="line">    public static Hero getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样通过new来实例化会报错，只有通过Hero.getInstance()来获取对象</p>
+<p>获取几次都是同一个</p>
+<h3 id="懒汉单例模式"><a href="#懒汉单例模式" class="headerlink" title="懒汉单例模式"></a>懒汉单例模式</h3><p>懒汉式单例模式与饿汉式单例模式不同，只有在调用getInstance的时候，才会创建实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Hero &#123;</span><br><span class="line">  </span><br><span class="line">    //私有化构造方法使得该类无法在外部通过new 进行实例化</span><br><span class="line">    private Hero()&#123;       </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    //准备一个类属性，用于指向一个实例化对象，但是暂时指向null</span><br><span class="line">    private static Hero instance;</span><br><span class="line">      </span><br><span class="line">    //public static 方法，返回实例对象</span><br><span class="line">    public static Hero getInstance()&#123;</span><br><span class="line">        //第一次访问的时候，发现instance没有指向任何对象，这时实例化一个对象</span><br><span class="line">        if(null==instance)&#123;</span><br><span class="line">            instance = new Hero();</span><br><span class="line">        &#125;</span><br><span class="line">        //返回 instance指向的对象</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>饿汉式是立即加载的方式，无论是否会用到这个对象，都会加载。<br>如果在构造方法里写了性能消耗较大，占时较久的代码，比如建立与数据库的连接，那么就会在启动的时候感觉稍微有些卡顿。</p>
+<p>懒汉式，是延迟加载的方式，只有使用的时候才会加载。 并且有线程安全的考量。<br>使用懒汉式，在启动的时候，会感觉到比饿汉式略快，因为并没有做对象的实例化。<br>但是在第一次调用的时候，会进行实例化操作，感觉上就略慢。</p>
+<p>看业务需求，如果业务上允许有比较充分的启动和初始化时间，就使用饿汉式，否则就使用懒汉式</p>
+<h3 id="单例模式三要素"><a href="#单例模式三要素" class="headerlink" title="单例模式三要素"></a>单例模式三要素</h3><ol>
+<li>构造方法私有化</li>
+<li>静态属性指向实例</li>
+<li>public static的 getInstance方法，返回第二步的静态属性</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/04/25/java%E5%88%9D%E7%BA%A7%EF%BC%9A%E6%95%B0%E5%AD%97%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="next" title="java初级：数字与字符串">
+                  <i class="fa fa-chevron-left"></i> java初级：数字与字符串
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/05/%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%87%BA%E7%94%9F%E8%BF%87%E7%A8%8B/" rel="prev" title="这个博客的出生过程">
+                  这个博客的出生过程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">1.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">2.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造方法"><span class="nav-number">3.</span> <span class="nav-text">构造方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是构造方法"><span class="nav-number">3.1.</span> <span class="nav-text">什么是构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐式的构造方法"><span class="nav-number">3.2.</span> <span class="nav-text">隐式的构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有参的构造方法"><span class="nav-number">3.3.</span> <span class="nav-text">有参的构造方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#This"><span class="nav-number">4.</span> <span class="nav-text">This</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包"><span class="nav-number">5.</span> <span class="nav-text">包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问修饰符"><span class="nav-number">6.</span> <span class="nav-text">访问修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#情况选择"><span class="nav-number">6.1.</span> <span class="nav-text">情况选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类属性"><span class="nav-number">7.</span> <span class="nav-text">类属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类方法"><span class="nav-number">8.</span> <span class="nav-text">类方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性初始化"><span class="nav-number">9.</span> <span class="nav-text">属性初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">10.</span> <span class="nav-text">单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">10.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉单例模式"><span class="nav-number">10.2.</span> <span class="nav-text">饿汉单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉单例模式"><span class="nav-number">10.3.</span> <span class="nav-text">懒汉单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">10.4.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式三要素"><span class="nav-number">10.5.</span> <span class="nav-text">单例模式三要素</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+     <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+     <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+  
+</body>
+</html>
+
+
+
