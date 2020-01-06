@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="开始Mybatis的学习了，确认过眼神，是个重要的框架~~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis入门：核心组件">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;08&#x2F;Mybatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="开始Mybatis的学习了，确认过眼神，是个重要的框架~~">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;16.png">
+<meta property="og:updated_time" content="2019-12-25T03:23:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;16.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/06/08/Mybatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mybatis入门：核心组件 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/08/Mybatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mybatis入门：核心组件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-08 13:25:54" itemprop="dateCreated datePublished" datetime="2019-06-08T13:25:54+08:00">2019-06-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-25 11:23:10" itemprop="dateModified" datetime="2019-12-25T11:23:10+08:00">2019-12-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/image/%E5%B0%81%E9%9D%A2%E5%9B%BE/16.png" alt="setup"></p>
+<p>开始Mybatis的学习了，确认过眼神，是个重要的框架~~</p>
+<a id="more"></a>
+<hr>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Mybatis是一个基于java的<strong>持久层</strong>框架，它内部封装了<strong>jdbc</strong><br>使开发者只需要关注sql本身<br>而不用去处理加载驱动、创建连接、创建statement等步骤</p>
+<p>Mybatis通过<strong>xml</strong>或<strong>注解</strong>的方式将要执行的statement配置起来<br>并通过java对象和statement中的sql动态参数进行映射生成最终的sql语句<br>最后由Mybatis执行Sql并将结果集映射为java对象并返回</p>
+<p>采用<strong>ORM</strong>思想解决了实体与数据库映射的问题，对jdbc进行了封装，屏蔽了jdbc-api的底层访问细节</p>
+<h3 id="持久层"><a href="#持久层" class="headerlink" title="持久层"></a>持久层</h3><p>持久层可以将业务数据存储到磁盘，具备长期存储的能力</p>
+<p>一般执行持久任务的都是数据库系统，持久层可以使用巨大的磁盘空间比较廉价，它的缺点就是特别慢。<br>当然慢是针对内存而言，在一般的系统中是不存在问题的<br>但是在某些系统，例如秒杀系统中，慢是不能承受的，在这种场景下考虑使用Redis</p>
+<p>Java互联网应用可以通过MyBatis框架访问数据库</p>
+<h3 id="其他持久层技术的解决方案"><a href="#其他持久层技术的解决方案" class="headerlink" title="其他持久层技术的解决方案"></a>其他持久层技术的解决方案</h3><p><strong>JDBC</strong></p>
+<p>java自带的数据库交互方案</p>
+<p>不是框架，而是一种规范</p>
+<p><strong>Spring的JdbcTemplate</strong></p>
+<p>Spring中对JDBC的简单封装</p>
+<p>不是框架，只是一个工具类</p>
+<p><strong>Apache的DBUtils</strong></p>
+<p>也是一个对JDBC的简单封装</p>
+<p>也只是一个工具类</p>
+<h3 id="Hibernate"><a href="#Hibernate" class="headerlink" title="Hibernate"></a>Hibernate</h3><p>Hibernate是MyBatis的前辈</p>
+<p>也是一个十分流行的持久层框架</p>
+<p>在MyBatis和Hibernate中可以通过XML或者注解提供映射规则</p>
+<p>所以两个框架都是ORM(Object Relational Mapping)，关系映射框架</p>
+<p>Hibernate基本不需要自己动手编写SQL语句就可以通过映射关系去操作数据库</p>
+<p>而MyBatis需要自己提供SQL</p>
+<h3 id="MyBatis的优缺点"><a href="#MyBatis的优缺点" class="headerlink" title="MyBatis的优缺点"></a>MyBatis的优缺点</h3><p>Hibernate和MyBatis的增删查改，对于业务逻辑层来说大同小异</p>
+<p>对于映射层而言Hibernate的配置不需要接口和SQL，就可以完全映射，同时提供日志、缓存、级联等特性<br>此外还提供了HQL对POJO进行操作，使用十分方便</p>
+<p>但由于无需SQL，当多表关联的时候，通过Hibernate的级联会造成太多性能的丢失</p>
+<p>这个问题MyBatis可以解决，MyBatis可以自由书写SQL，支持动态SQL、处理列表、动态生成表名、支持存储过程。<br>这样就可以灵活地定义查询语句，满足各类需求和性能优化的需要</p>
+<p>但是MyBatis也有缺陷</p>
+<p>首先，它要编写SQL和映射规则，其工作量稍微大于Hibernate</p>
+<p>其次支持的工具也有限，不像Hibernate有许多帮助生成映射代码和关联关系</p>
+<h3 id="MyBatis的核心组件"><a href="#MyBatis的核心组件" class="headerlink" title="MyBatis的核心组件"></a>MyBatis的核心组件</h3><ul>
+<li><p>SqlSessionFactoryBuilder(构造器):<br>它会根据配置或者代码来生成SqlSessionFactory，采用的是分步构建的Builder模式</p>
+</li>
+<li><p>SqlSessionFactory(工厂接口)：<br>依靠它来生成SqlSession，使用的是工厂模式</p>
+</li>
+<li><p>SqlSession(会话)：<br>一个既可以发送SQL执行返回结果，也可以获取Mapper的接口。<br>在现有技术中，一般使会话在业务逻辑中消失，而使用Mapper接口编程</p>
+</li>
+<li><p>SQL Mapper(映射器)：<br>它由一个Java接口和一个XML文件（或注解）构成，需要给出对应的SQL和映射规则。<br>它负责发送SQL去执行，并返回结构</p>
+</li>
+</ul>
+<hr>
+<h2 id="SqlSessionFactory（工厂接口）"><a href="#SqlSessionFactory（工厂接口）" class="headerlink" title="SqlSessionFactory（工厂接口）"></a>SqlSessionFactory（工厂接口）</h2><p>使用MyBatis首先是使用配置或者代码去生产SqlSessionFactory，而MyBatis提供了构造器<strong>SqlSessionFactoryBuilder</strong><br>它提供一个类org.apache.ibatis.session.Configuration作为引导，采用Builder模式</p>
+<p>当配置了XML或者提供代码后，MyBatis会读取配置文件，通过Configuration类对象构建整个MyBatis的上下文</p>
+<p>SqlSessionFactory是一个接口，在MyBatis中有两个实现类：SqlSessionManager和DefaultSqlSessionFactory.<br>一般而言，具体是由DefaultSqlSessionFactory去实现<br>而SqlSessionManager使用在多线程的环境中，它的具体实现依靠DefaultSqlSessionFactory</p>
+<p>每个基于MyBatis的应用都是以一个 SqlSessionFactory 的实例为中心的<br>而SqlSessionFactory唯一的作用就是生产MyBatis的核心接口对象SqlSession，所以它的责任是唯一的<br>往往采用单例模式创建它</p>
+<h3 id="使用XML构建SqlSessionFactory"><a href="#使用XML构建SqlSessionFactory" class="headerlink" title="使用XML构建SqlSessionFactory"></a>使用XML构建SqlSessionFactory</h3><p>首先，在MyBatis中XML分为两类<br>一类是基础配置文件，通常只有一个，主要是配置一些最基本的上下文参数和运行环境<br>另一类是映射文件，它可以配置映射关系、SQL、参数等信息</p>
+<p>基础配置文件:\main\resources\SqlMapConfig.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;!-- 配置环境--&gt;</span><br><span class="line">    &lt;environments default=&quot;mysql&quot;&gt;</span><br><span class="line">        &lt;!-- 配置Mysql的环境--&gt;</span><br><span class="line">        &lt;environment id=&quot;mysql&quot;&gt;</span><br><span class="line">            &lt;!-- 配置事务的类型--&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt;</span><br><span class="line">            &lt;!-- 配置数据源（连接池）--&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;!-- 配置连接数据库的四个基本信息--&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/eesy&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件--&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/xiaozhong/dao/UserDao.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>有了基础配置文件，就可以生成SqlSessionFactory了<br>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//1.读取配置文件</span><br><span class="line">InputStream in = Resources.getResourceAsStream(&quot;SqlMapConfig.xml&quot;);</span><br><span class="line">//2.创建SqlSessionFactory工厂</span><br><span class="line">SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();</span><br><span class="line">SqlSessionFactory factory = builder.build(in);</span><br></pre></td></tr></table></figure>
+
+<p>首先读取基础配置文件，然后通过<strong>SqlSessionFactoryBuilder</strong>的<strong>Builder</strong>方法去创建<br>采用XML创建的形式，信息在配置文件中，有利于我们日后的维护和修改，避免了重新编译代码</p>
+<h3 id="代码创建SqlSessionFactory"><a href="#代码创建SqlSessionFactory" class="headerlink" title="代码创建SqlSessionFactory"></a>代码创建SqlSessionFactory</h3><p>代码冗长，复杂<br>除了某些特殊需要，一般用不到</p>
+<p>跳过</p>
+<hr>
+<h2 id="SqlSession"><a href="#SqlSession" class="headerlink" title="SqlSession"></a>SqlSession</h2><p>在MyBatis中，SqlSession是核心接口</p>
+<p>有两个实现类：SqlSessionManager和DefaultSqlSession</p>
+<p>和SqlSessionFactory中一样，SqlSessionManager是多线程中使用的，DefaultSqlSession是单线程使用的</p>
+<p>SqlSession的作用；类似于JDBC中的Connection代表着一个连接资源的启用</p>
+<p>具体而言，有三个作用：</p>
+<ul>
+<li>获取Mapper接口</li>
+<li>发送SQL给数据库</li>
+<li>控制数据库事务</li>
+</ul>
+<h3 id="创建SqlSession"><a href="#创建SqlSession" class="headerlink" title="创建SqlSession"></a>创建SqlSession</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//3.使用工厂生产SqlSession对象</span><br><span class="line">SqlSession session = factory.openSession();</span><br></pre></td></tr></table></figure>
+
+<p>SqlSession可以控制事务，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">session.commit();//提交事务</span><br><span class="line">session.rollback();//回滚事务</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="映射器"><a href="#映射器" class="headerlink" title="映射器"></a>映射器</h2><p>映射器是MyBatis中最重要、最复杂的组件，它由一个接口和对应的XML文件（或注解）组成。</p>
+<p>它可以配置以下内容：</p>
+<ul>
+<li>描述映射规则</li>
+<li>提供SQL语句，并可以配置SQL参数类型、返回类型、缓存刷新等信息</li>
+<li>配置缓存</li>
+<li>提供动态SQL</li>
+</ul>
+<p>映射器的主要作用就是将SQL查询到的结果映射为一个POJO<br>或者将POJO的数据插入到数据库中，并定义一些缓存等的重要内容</p>
+<p><em>注意：开发只是一个接口，而不是一个实现类，MyBatis运用了动态代理使得接口能运行起来</em></p>
+<h3 id="用XML实现映射器"><a href="#用XML实现映射器" class="headerlink" title="用XML实现映射器"></a>用XML实现映射器</h3><p>用XML实现映射器分为两个部分：接口和XML。</p>
+<p>先定义一个映射器接口。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    //查询所有操作</span><br><span class="line">    List&lt;User&gt; findAll(Long id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在基本配置中有这样一段代码，它的作用就是映入一个XML文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件--&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/xiaozhong/dao/UserDao.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后是导入的XML文件，用来创建映射器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.xiaozhong.dao.UserDao&quot;&gt;</span><br><span class="line">&lt;!-- 配置查询所有--&gt;</span><br><span class="line">&lt;select id=&quot;findAll&quot; parameterType=&quot;Long&quot; resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">        select * from user</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<p>ok,这就完成了一个映射器</p>
+<p>解释一下</p>
+<ul>
+<li><code>&lt;mapper&gt;</code>元素中的属性 <code>namespace</code> 对应的是一个接口的全限定名，于是MyBatis就可以通过它找到对应的接口</li>
+<li><code>&lt;select&gt;</code>元素表明这是一条查询语句，而属性id标示了这条SQL，属性parameterType=”Long”说明传递给SQL的是一个Long型的参数<br>  而resultType=”com.xiaozhong.domain.User”表示返回的是一个User类的返回值</li>
+<li>要调用传递进去的参数就用<code>{}</code></li>
+</ul>
+<p><em>注意：在这里并没有定义映射规则，使用的是MyBatis的自动映射</em></p>
+<h3 id="注解实现映射器"><a href="#注解实现映射器" class="headerlink" title="注解实现映射器"></a>注解实现映射器</h3><p>只需一个接口就完事，通过MyBatis的注解来注入SQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    //查询所有操作</span><br><span class="line">    @select(&quot;select * from user&quot;)</span><br><span class="line">    List&lt;User&gt; findAll(Long id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后导入mapper是在基础设置的XML中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件--&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/xiaozhong/dao/UserDao&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这完全等同于XML方式创建映射器<br>如果它和XML方式同时定义时，XML方式将覆盖掉注解方式<br>所以MyBatis官方更推荐XML方式</p>
+<p>虽然现在看来使用注解的方式比XML方式简单得多<br>但是当SQL的复杂度提升了，注解的可读性就会下降很多，不利于日后的维护和修改</p>
+<h3 id="SqlSession发送SQL"><a href="#SqlSession发送SQL" class="headerlink" title="SqlSession发送SQL"></a>SqlSession发送SQL</h3><p>有了映射器就可以通过SqlSession发送SQL了</p>
+<p><code>User user = （User）sqlSession.selectOne(&quot;findAll&quot;,3L)</code></p>
+<p>selectOne方法表示使用查询并且只返回一个对象，第一个参数是SQL的命名空间+id，但是这里我又有一条SQL，ID就是唯一的，就可以省略命名空间<br>第二个参数是findall中所需的参数</p>
+<p>这是MyBatis前身iBatis所留下的方法</p>
+<h3 id="用Mapper接口发送SQL"><a href="#用Mapper接口发送SQL" class="headerlink" title="用Mapper接口发送SQL"></a>用Mapper接口发送SQL</h3><p>SqlSession还可以获取Mapper接口，通过Mapper接口发送SQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//4.使用SqlSession创建Dao接口的代理对象</span><br><span class="line">UserDao userDao = session.getMapper(UserDao.class);</span><br><span class="line">//5.使用代理对象执行方法</span><br><span class="line">List&lt;User&gt; users = userDao.findAll(2L);</span><br></pre></td></tr></table></figure>
+<p>有了代理对象后就可以调用它的方法了</p>
+<h3 id="两种方法的对比"><a href="#两种方法的对比" class="headerlink" title="两种方法的对比"></a>两种方法的对比</h3><p>主流使用的是获取Mapper接口来发送SQL<br>优势如下：</p>
+<ul>
+<li>使用Mapper接口编程可以消除<code>SqlSession</code>带来的功能性代码，提高可读性</li>
+<li>使用<code>Mapper.findall(1L)</code>方式，IDE会提示错误和校验，而<code>sqlSession.selectOne(&quot;findAll&quot;,3L)</code>只有在运行中才知道是否产生错误</li>
+</ul>
+<hr>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>生命周期就是每一个对象应该存活的时间<br>比如一些对象一次用完后就要关闭，使他们被JVM销毁，以避免继续占用资源</p>
+<h3 id="SqlSessionFactoryBuilder"><a href="#SqlSessionFactoryBuilder" class="headerlink" title="SqlSessionFactoryBuilder"></a>SqlSessionFactoryBuilder</h3><p>SqlSessionFactoryBuilder 的作用在于创建 SqlSessionFactory ，创建成功后它就失去了作用<br>所以只能存在于创建SqlSessionFactory的方法中</p>
+<h3 id="SqlSessionFactory"><a href="#SqlSessionFactory" class="headerlink" title="SqlSessionFactory"></a>SqlSessionFactory</h3><p>SqlSessionFactor可以被认为是一个数据库的连接池，它的作用是创建SqlSession接口对象<br>因为MyBatis的本质就是Java对数据库的操作，所以SqlSessionFactor的生命周期等于MyBatis的生命周期</p>
+<p>一般来说连接池只有一个，所以一般用单例模式创建它</p>
+<h3 id="SqlSession-1"><a href="#SqlSession-1" class="headerlink" title="SqlSession"></a>SqlSession</h3><p>如果说SqlSessionFactory等同于数据库连接池，那么SqlSession就相当于一个数据库连接<br>所以它应该存在于一个业务请求中，处理完整个请求后，应该关闭这条连接</p>
+<h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>会随着SqlSession的关闭而关闭<br>所以最大生命周期最多与SqlSession一致。<br>总的来说它的周期小于等于SqlSession的生命周期<br>Mapper代表的是一个请求中的业务处理</p>
+<p><em>啊，好累，终于，有个，基本，认识，了，。</em></p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/05/23/java%E4%B8%AD%E7%BA%A7%EF%BC%9A%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="next" title="java中级：网络编程">
+                  <i class="fa fa-chevron-left"></i> java中级：网络编程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/06/10/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" rel="prev" title="Mybatis入门：基础配置">
+                  Mybatis入门：基础配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久层"><span class="nav-number">1.1.</span> <span class="nav-text">持久层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他持久层技术的解决方案"><span class="nav-number">1.2.</span> <span class="nav-text">其他持久层技术的解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate"><span class="nav-number">1.3.</span> <span class="nav-text">Hibernate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis的优缺点"><span class="nav-number">1.4.</span> <span class="nav-text">MyBatis的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyBatis的核心组件"><span class="nav-number">1.5.</span> <span class="nav-text">MyBatis的核心组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SqlSessionFactory（工厂接口）"><span class="nav-number">2.</span> <span class="nav-text">SqlSessionFactory（工厂接口）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用XML构建SqlSessionFactory"><span class="nav-number">2.1.</span> <span class="nav-text">使用XML构建SqlSessionFactory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码创建SqlSessionFactory"><span class="nav-number">2.2.</span> <span class="nav-text">代码创建SqlSessionFactory</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SqlSession"><span class="nav-number">3.</span> <span class="nav-text">SqlSession</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建SqlSession"><span class="nav-number">3.1.</span> <span class="nav-text">创建SqlSession</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#映射器"><span class="nav-number">4.</span> <span class="nav-text">映射器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用XML实现映射器"><span class="nav-number">4.1.</span> <span class="nav-text">用XML实现映射器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解实现映射器"><span class="nav-number">4.2.</span> <span class="nav-text">注解实现映射器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SqlSession发送SQL"><span class="nav-number">4.3.</span> <span class="nav-text">SqlSession发送SQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用Mapper接口发送SQL"><span class="nav-number">4.4.</span> <span class="nav-text">用Mapper接口发送SQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两种方法的对比"><span class="nav-number">4.5.</span> <span class="nav-text">两种方法的对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">5.</span> <span class="nav-text">生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SqlSessionFactoryBuilder"><span class="nav-number">5.1.</span> <span class="nav-text">SqlSessionFactoryBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SqlSessionFactory"><span class="nav-number">5.2.</span> <span class="nav-text">SqlSessionFactory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SqlSession-1"><span class="nav-number">5.3.</span> <span class="nav-text">SqlSession</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper"><span class="nav-number">5.4.</span> <span class="nav-text">Mapper</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+     <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+     <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+  
+</body>
+</html>
+
+
+

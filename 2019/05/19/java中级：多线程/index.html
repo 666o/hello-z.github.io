@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="如题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中级：多线程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;05&#x2F;19&#x2F;java%E4%B8%AD%E7%BA%A7%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="如题">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;10.png">
+<meta property="og:updated_time" content="2019-12-25T03:20:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;10.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/05/19/java%E4%B8%AD%E7%BA%A7%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>java中级：多线程 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/19/java%E4%B8%AD%E7%BA%A7%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java中级：多线程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-19 13:53:15" itemprop="dateCreated datePublished" datetime="2019-05-19T13:53:15+08:00">2019-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-25 11:20:25" itemprop="dateModified" datetime="2019-12-25T11:20:25+08:00">2019-12-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/image/%E5%B0%81%E9%9D%A2%E5%9B%BE/10.png" alt="setup"></p>
+<p>如题</p>
+<a id="more"></a>
+<hr>
+<h2 id="启动一个线程"><a href="#启动一个线程" class="headerlink" title="启动一个线程"></a>启动一个线程</h2><p>多线程即在同一时间，可以做多件事情。</p>
+<p>创建多线程有3种方式，分别是<strong>继承线程类,实现Runnable接口,匿名类</strong></p>
+<h3 id="线程的概念"><a href="#线程的概念" class="headerlink" title="线程的概念"></a>线程的概念</h3><p>1、进程是资源分配的最小单位，线程是程序执行的最小单位（资源调度的最小单位）</p>
+<p>2、进程有自己的独立地址空间，每启动一个进程，系统就会为它分配地址空间<br>而线程是共享进程中的数据的，使用相同的地址空间<br>因此CPU切换一个线程的花费远比进程要小很多，同时创建一个线程的开销也比进程要小很多。</p>
+<p>3、线程之间的通信更方便，同一进程下的线程共享全局变量、静态变量等数据，<br>而进程之间的通信需要以通信的方式（IPC）进行。</p>
+<h3 id="继承线程类"><a href="#继承线程类" class="headerlink" title="继承线程类"></a>继承线程类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">设计一个类MyThread 继承Thread，并且重写run方法</span><br><span class="line">启动线程办法： 实例化一个MyThread对象，并且调用其start方法</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Runnable接口"><a href="#使用Runnable接口" class="headerlink" title="使用Runnable接口"></a>使用Runnable接口</h3><p>创建类Mythread,实现Runnable接口<br>启动的时候首先创建一个Mythread对象，然后在根据该对象创建一个线程对象并启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Mythread r = new Mythread();</span><br><span class="line">new Thread(r).start();</span><br></pre></td></tr></table></figure>
+
+<p>Mythread对象实现了Runnable接口，所以有run方法，但是直接调用run方法，并不会启动一个新的线程。<br>必须，借助一个线程对象的start()方法，才会启动一个新的线程。<br>所以，在创建Thread对象的时候，把 r 作为构造方法的参数传递进去，这个线程启动的时候，就会去执行<strong>r.run()</strong>方法了。</p>
+<h3 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h3><p>使用匿名类，继承Thread,重写run方法，直接在run方法中写业务代码<br>匿名类的一个好处是可以很方便的访问外部的局部变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Thread t1= new Thread()&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        //匿名类中用到外部的局部变量teemo，必须把teemo声明为final</span><br><span class="line">        //但是在JDK7以后，就不是必须加final的了</span><br><span class="line">        System.out.print(&quot;线程创建成功！&quot;)              </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>总之，就是<strong>重写Thread的类方法</strong></p>
+<p>_ 启动线程是start()方法，run()并不能启动一个新的线程 _</p>
+<hr>
+<h2 id="线程的常用方法"><a href="#线程的常用方法" class="headerlink" title="线程的常用方法"></a>线程的常用方法</h2><h3 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h3><p>当前线程暂停</p>
+<p>Thread.sleep(1000); 表示当前线程暂停1000毫秒 ，其他线程不受影响</p>
+<h3 id="join"><a href="#join" class="headerlink" title="join"></a>join</h3><p>加入到当前线程中</p>
+<p>只有被加入线程运行结束后，当前线程才继续往下走</p>
+<p><code>Thread.join();</code></p>
+<h3 id="setPriority"><a href="#setPriority" class="headerlink" title="setPriority"></a>setPriority</h3><p>线程优先级</p>
+<p>1 . 优先级表示重要程度或者紧急程度.但是能不能抢到资源也是不一定.<br>2 . 分配优先级：反映线程的重要或紧急程度<br>线程的优先级用1～10 表示，1的优先级最低，10的优先级最高，默认值是5</p>
+<p>当线程处于竞争关系的时候，优先级高的线程会有更大的几率获得CPU资源</p>
+<p><code>Thread.setPriority(Thread.MAX_PRIORITY)</code></p>
+<h3 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h3><p>临时暂停</p>
+<p>当前线程，临时暂停，是的其他线程有更多机会占用CPU资源</p>
+<p><code>Thread.yield();</code></p>
+<h3 id="setDaemon"><a href="#setDaemon" class="headerlink" title="setDaemon"></a>setDaemon</h3><p>守护线程</p>
+<p>守护线程的概念是： 当一个进程里，所有的线程都是守护线程的时候，结束当前进程。</p>
+<p>就好像一个公司有销售部，生产部这些和业务挂钩的部门。<br>除此之外，还有后勤，行政等这些支持部门。</p>
+<p>如果一家公司销售部，生产部都解散了，那么只剩下后勤和行政，那么这家公司也可以解散了。</p>
+<p>守护线程就相当于那些支持部门，如果一个进程只剩下守护线程，那么进程就会自动结束。</p>
+<p>守护线程通常会被用来做日志，性能统计等工作。</p>
+<p><code>Thread.setDaemon(true);</code></p>
+<hr>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>多线程的同步问题指的是多个线程同时修改一个数据的时候，可能导致的问题</p>
+<p>多线程的问题，又叫Concurrency 问题</p>
+<h3 id="同步问题产生的原因"><a href="#同步问题产生的原因" class="headerlink" title="同步问题产生的原因"></a>同步问题产生的原因</h3><p>多线程对临界资源的访问有时会导致数据的不一致性。</p>
+<p>例如两个线程，第一个线程使主线程的<code>int i=1</code>增加1</p>
+<p>第二个线程使i减少1</p>
+<p>当第一个线程获取到i的时候，i=1，还没来得及加，第二个线程也获取到了i</p>
+<p>这时第二个线程获取到的i也为1</p>
+<p>第一个线程中将i赋值为2</p>
+<p>第二个线程中将i赋值为0</p>
+<p>根据两个线程的赋值时间，就有了两种结果，但是两个结果都不是我们想要的</p>
+<h3 id="解决思路：同步对象"><a href="#解决思路：同步对象" class="headerlink" title="解决思路：同步对象"></a>解决思路：同步对象</h3><p>这个时候引入<code>synchronized</code>关键字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object someObject =new Object();</span><br><span class="line">synchronized (someObject)&#123;</span><br><span class="line">  //此处的代码只有占有了someObject后才可以执行</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>synchronized表示当前线程，独占 对象 someObject<br>当前线程独占 了对象someObject，如果有其他线程试图占有对象someObject，就会等待，直到当前线程释放对someObject的占用。<br>someObject 又叫同步对象，所有的对象，都可以作为同步对象<br>为了达到同步的效果，必须使用同一个同步对象</p>
+<p>释放同步对象的方式： synchronized 块自然结束，或者有异常抛出</p>
+<p>间接地，导致同一时间，临界资源只能被一个线程修改。</p>
+<h3 id="在方法前加上修饰符synchronized"><a href="#在方法前加上修饰符synchronized" class="headerlink" title="在方法前加上修饰符synchronized"></a>在方法前加上修饰符synchronized</h3><p>在方法前加上修饰符synchronized其，所对应的同步对象，就是this</p>
+<p>约等于该对象的被同步</p>
+<h3 id="线程安全的类"><a href="#线程安全的类" class="headerlink" title="线程安全的类"></a>线程安全的类</h3><p>如果一个类，其方法都是有synchronized修饰的，那么该类就叫做线程安全的类</p>
+<p>同一时间，只有一个线程能够进入 这种类的一个实例 的去修改数据，进而保证了这个实例中的数据的安全(不会同时被多线程修改而变成脏数据)</p>
+<p>比如StringBuffer和StringBuilder的区别<br>StringBuffer的方法都是有synchronized修饰的，StringBuffer就叫做线程安全的类<br>而StringBuilder就不是线程安全的类</p>
+<hr>
+<h2 id="常见的线程安全"><a href="#常见的线程安全" class="headerlink" title="常见的线程安全"></a>常见的线程安全</h2><h3 id="HashMap和Hashtable的区别"><a href="#HashMap和Hashtable的区别" class="headerlink" title="HashMap和Hashtable的区别"></a>HashMap和Hashtable的区别</h3><p>HashMap和Hashtable都实现了Map接口，都是键值对保存数据的方式<br>区别1：<br>HashMap可以存放 null<br>Hashtable不能存放null<br>区别2：<br>HashMap不是线程安全的类<br>Hashtable是线程安全的类</p>
+<h3 id="StringBuffer和StringBuilder的区别顶"><a href="#StringBuffer和StringBuilder的区别顶" class="headerlink" title="StringBuffer和StringBuilder的区别顶"></a>StringBuffer和StringBuilder的区别顶</h3><p>StringBuffer 是线程安全的<br>StringBuilder 是非线程安全的</p>
+<p>所以当进行大量字符串拼接操作的时候，<br>如果是单线程就用StringBuilder会更快些<br>如果是多线程，就需要用StringBuffer 保证数据的安全性</p>
+<p>非线程安全的为什么会比线程安全的快？ 因为不需要同步嘛，省略了些时间</p>
+<h3 id="ArrayList和Vector的区别"><a href="#ArrayList和Vector的区别" class="headerlink" title="ArrayList和Vector的区别"></a>ArrayList和Vector的区别</h3><p>Vector是线程安全的类，而ArrayList是非线程安全的。</p>
+<hr>
+<h2 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h2><p>线程之间有<strong>交互通知</strong>的需求</p>
+<h3 id="不好的方法"><a href="#不好的方法" class="headerlink" title="不好的方法"></a>不好的方法</h3><p>在线程中不停的判断</p>
+<p>会大量占用CPU</p>
+<h3 id="使用wait和notify进行线程交互"><a href="#使用wait和notify进行线程交互" class="headerlink" title="使用wait和notify进行线程交互"></a>使用wait和notify进行线程交互</h3><p>this.wait()表示 让占有this的线程等待，并临时释放占有</p>
+<p>this.notify() 表示通知那些等待在this的线程，可以苏醒过来了。</p>
+<p>这里需要强调的是，wait方法和notify方法，并不是Thread线程上的方法，它们是Object上的方法。</p>
+<p>因为所有的Object都可以被用来作为同步对象，所以准确的讲，wait和notify是同步对象上的方法。</p>
+<p>wait()的意思是： 让占用了这个同步对象的线程，临时释放当前的占用，并且等待。 所以调用wait是有前提条件的，一定是在synchronized块里，否则就会出错。</p>
+<p>notify() 的意思是，通知一个等待在这个同步对象上的线程，你可以苏醒过来了，有机会重新占用当前对象了。</p>
+<p>notifyAll() 的意思是，通知所有的等待在这个同步对象上的线程，你们可以苏醒过来了，有机会重新占用当前对象了。</p>
+<hr>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>每一个线程的启动和结束都是比较消耗时间和占用资源的。</p>
+<p>如果在系统中用到了很多的线程，大量的启动和结束动作会导致系统的性能变卡，响应变慢。</p>
+<p>为了解决这个问题，引入线程池这种设计思想。</p>
+<p>线程池的模式很像生产者消费者模式，消费的对象是一个一个的能够运行的任务</p>
+<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><p>线程池的思路和生产者消费者模型是很接近的。</p>
+<ol>
+<li>准备一个任务容器</li>
+<li>一次性启动10个 消费者线程</li>
+<li>刚开始任务容器是空的，所以线程都wait在上面。</li>
+<li>直到一个外部线程往这个任务容器中扔了一个“任务”，就会有一个消费者线程被唤醒notify</li>
+<li>这个消费者线程取出“任务”，并且执行这个任务，执行完毕后，继续等待下一次任务的到来。</li>
+<li>如果短时间内，有较多的任务加入，那么就会有多个线程被唤醒，去执行这些任务。</li>
+</ol>
+<p>在整个过程中，都不需要创建新的线程，而是循环使用这些已经存在的线程</p>
+<h3 id="Java自带线程池"><a href="#Java自带线程池" class="headerlink" title="Java自带线程池"></a>Java自带线程池</h3><p>线程池类ThreadPoolExecutor在包java.util.concurrent下</p>
+<p><code>ThreadPoolExecutor threadPool= new ThreadPoolExecutor(10, 15, 60, TimeUnit.SECONDS, new LinkedBlockingQueue&lt;Runnable&gt;());</code></p>
+<p>第一个参数10 表示这个线程池初始化了10个线程在里面工作<br>第二个参数15 表示如果10个线程不够用了，就会自动增加到最多15个线程<br>第三个参数60 结合第四个参数TimeUnit.SECONDS，表示经过60秒，多出来的线程还没有接到活儿，就会回收，最后保持池子里就10个<br>第四个参数TimeUnit.SECONDS 如上<br>第五个参数 new LinkedBlockingQueue() 用来放任务的集合</p>
+<p>execute方法用于添加新的任务</p>
+<hr>
+<h2 id="Lock对象"><a href="#Lock对象" class="headerlink" title="Lock对象"></a>Lock对象</h2><p>与synchronized类似的，lock也能够达到同步的效果</p>
+<h3 id="回忆-synchronized-同步的方式"><a href="#回忆-synchronized-同步的方式" class="headerlink" title="回忆 synchronized 同步的方式"></a>回忆 synchronized 同步的方式</h3><p>首先回忆一下 synchronized 同步对象的方式</p>
+<p>当一个线程占用 synchronized 同步对象，其他线程就不能占用了，直到释放这个同步对象为止</p>
+<h3 id="使用Lock对象实现同步效果"><a href="#使用Lock对象实现同步效果" class="headerlink" title="使用Lock对象实现同步效果"></a>使用Lock对象实现同步效果</h3><p>Lock是一个接口，为了使用一个Lock对象，需要用到</p>
+<p><code>Lock lock = new ReentrantLock();</code></p>
+<p>与 synchronized (someObject) 类似的，lock()方法，表示当前线程占用lock对象，一旦占用，其他线程就不能占用了。<br>与 synchronized 不同的是，一旦synchronized 块结束，就会自动释放对someObject的占用。 lock却必须调用unlock方法进行手动释放，为了保证释放的执行，往往会把unlock() 放在finally中进行。</p>
+<p>synchronized 是不占用到手不罢休的，会一直试图占用下去。<br>与 synchronized 的钻牛角尖不一样，Lock接口还提供了一个trylock方法。<br>trylock会在指定时间范围内试图占用，占成功了，就啪啪啪。 如果时间到了，还占用不成功，扭头就走~</p>
+<p>注意： 因为使用trylock有可能成功，有可能失败，所以后面unlock释放锁的时候，需要判断是否占用成功了，如果没占用成功也unlock,就会抛出异常</p>
+<h3 id="线程交互"><a href="#线程交互" class="headerlink" title="线程交互"></a>线程交互</h3><p>使用synchronized方式进行线程交互，用到的是同步对象的wait,notify和notifyAll方法</p>
+<p>Lock也提供了类似的解决办法，首先通过lock对象得到一个Condition对象，然后分别调用这个Condition对象的：await, signal,signalAll 方法</p>
+<p>注意： 不是Condition对象的wait,nofity,notifyAll方法,是await,signal,signalAll</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Lock lock = new ReentrantLock();</span><br><span class="line">Condition condition = lock.newCondition();</span><br></pre></td></tr></table></figure>
+
+<h3 id="Lock和synchronized的区别"><a href="#Lock和synchronized的区别" class="headerlink" title="Lock和synchronized的区别"></a>Lock和synchronized的区别</h3><ol>
+<li><p>Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现，Lock是代码层面的实现。</p>
+</li>
+<li><p>Lock可以选择性的获取锁，如果一段时间获取不到，可以放弃。synchronized不行，会一根筋一直获取下去。 借助Lock的这个特性，就能够规避死锁，synchronized必须通过谨慎和良好的设计，才能减少死锁的发生。</p>
+</li>
+<li><p>synchronized在发生异常和同步块结束的时候，会自动释放锁。而Lock必须手动释放， 所以如果忘记了释放锁，一样会造成死锁。</p>
+</li>
+</ol>
+<hr>
+<h2 id="原子访问"><a href="#原子访问" class="headerlink" title="原子访问"></a>原子访问</h2><h3 id="原子性操作概念"><a href="#原子性操作概念" class="headerlink" title="原子性操作概念"></a>原子性操作概念</h3><p>所谓的原子性操作即不可中断的操作，比如赋值操作</p>
+<p><code>int i = 5;</code></p>
+<p>原子性操作本身是线程安全的<br>但是 i++ 这个行为，事实上是有3个原子性操作组成的。<br>步骤 1. 取 i 的值<br>步骤 2. i + 1<br>步骤 3. 把新的值赋予i<br>这三个步骤，每一步都是一个原子操作，但是合在一起，就不是原子操作。就不是线程安全的。<br>换句话说，一个线程在步骤1 取i 的值结束后，还没有来得及进行步骤2，另一个线程也可以取 i的值了。<br>这也是分析同步问题产生的原因 中的原理。<br>i++ ，i–， i = i+1 这些都是非原子性操作。<br>只有int i = 1,这个赋值操作是原子性的。</p>
+<h3 id="AtomicInteger"><a href="#AtomicInteger" class="headerlink" title="AtomicInteger"></a>AtomicInteger</h3><p>JDK6 以后，新增加了一个包java.util.concurrent.atomic，里面有各种原子类，比如AtomicInteger。<br>而AtomicInteger提供了各种自增，自减等方法，这些方法都是原子性的。 换句话说，自增方法 incrementAndGet 是线程安全的，同一个时间，只有一个线程可以调用这个方法</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/05/15/java%E4%B8%AD%E7%BA%A7%EF%BC%9ALambda/" rel="next" title="java中级：Lambda">
+                  <i class="fa fa-chevron-left"></i> java中级：Lambda
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/05/21/java%E4%B8%AD%E7%BA%A7%EF%BC%9AJDBC/" rel="prev" title="java中级：JDBC">
+                  java中级：JDBC <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动一个线程"><span class="nav-number">1.</span> <span class="nav-text">启动一个线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的概念"><span class="nav-number">1.1.</span> <span class="nav-text">线程的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承线程类"><span class="nav-number">1.2.</span> <span class="nav-text">继承线程类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Runnable接口"><span class="nav-number">1.3.</span> <span class="nav-text">使用Runnable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匿名类"><span class="nav-number">1.4.</span> <span class="nav-text">匿名类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的常用方法"><span class="nav-number">2.</span> <span class="nav-text">线程的常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep"><span class="nav-number">2.1.</span> <span class="nav-text">sleep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#join"><span class="nav-number">2.2.</span> <span class="nav-text">join</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setPriority"><span class="nav-number">2.3.</span> <span class="nav-text">setPriority</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yield"><span class="nav-number">2.4.</span> <span class="nav-text">yield</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setDaemon"><span class="nav-number">2.5.</span> <span class="nav-text">setDaemon</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步"><span class="nav-number">3.</span> <span class="nav-text">同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步问题产生的原因"><span class="nav-number">3.1.</span> <span class="nav-text">同步问题产生的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决思路：同步对象"><span class="nav-number">3.2.</span> <span class="nav-text">解决思路：同步对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在方法前加上修饰符synchronized"><span class="nav-number">3.3.</span> <span class="nav-text">在方法前加上修饰符synchronized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全的类"><span class="nav-number">3.4.</span> <span class="nav-text">线程安全的类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的线程安全"><span class="nav-number">4.</span> <span class="nav-text">常见的线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap和Hashtable的区别"><span class="nav-number">4.1.</span> <span class="nav-text">HashMap和Hashtable的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer和StringBuilder的区别顶"><span class="nav-number">4.2.</span> <span class="nav-text">StringBuffer和StringBuilder的区别顶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList和Vector的区别"><span class="nav-number">4.3.</span> <span class="nav-text">ArrayList和Vector的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交互"><span class="nav-number">5.</span> <span class="nav-text">交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不好的方法"><span class="nav-number">5.1.</span> <span class="nav-text">不好的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用wait和notify进行线程交互"><span class="nav-number">5.2.</span> <span class="nav-text">使用wait和notify进行线程交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">6.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计思路"><span class="nav-number">6.1.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java自带线程池"><span class="nav-number">6.2.</span> <span class="nav-text">Java自带线程池</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lock对象"><span class="nav-number">7.</span> <span class="nav-text">Lock对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回忆-synchronized-同步的方式"><span class="nav-number">7.1.</span> <span class="nav-text">回忆 synchronized 同步的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Lock对象实现同步效果"><span class="nav-number">7.2.</span> <span class="nav-text">使用Lock对象实现同步效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程交互"><span class="nav-number">7.3.</span> <span class="nav-text">线程交互</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lock和synchronized的区别"><span class="nav-number">7.4.</span> <span class="nav-text">Lock和synchronized的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子访问"><span class="nav-number">8.</span> <span class="nav-text">原子访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原子性操作概念"><span class="nav-number">8.1.</span> <span class="nav-text">原子性操作概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AtomicInteger"><span class="nav-number">8.2.</span> <span class="nav-text">AtomicInteger</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+     <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+     <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+  
+</body>
+</html>
+
+
+

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="核心组件，灵魂所在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis入门：映射器">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;13&#x2F;MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%A0%E5%B0%84%E5%99%A8&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="核心组件，灵魂所在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;18.png">
+<meta property="og:updated_time" content="2019-12-29T15:10:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;18.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/06/13/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%A0%E5%B0%84%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mybatis入门：映射器 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/13/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%A0%E5%B0%84%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mybatis入门：映射器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-13 13:55:14" itemprop="dateCreated datePublished" datetime="2019-06-13T13:55:14+08:00">2019-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-29 23:10:03" itemprop="dateModified" datetime="2019-12-29T23:10:03+08:00">2019-12-29</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/image/%E5%B0%81%E9%9D%A2%E5%9B%BE/18.png" alt="setup"></p>
+<p>核心组件，灵魂所在</p>
+<a id="more"></a>
+<hr>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>配置元素如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>元素名称</th>
+<th align="center">描述</th>
+<th align="right">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>select</td>
+<td align="center">查询语句，最常用</td>
+<td align="right">可以自定义参数，返回结果集</td>
+</tr>
+<tr>
+<td>insert</td>
+<td align="center">插入语句</td>
+<td align="right">执行后返回一个整数，代表插入的条数</td>
+</tr>
+<tr>
+<td>update</td>
+<td align="center">更新语句</td>
+<td align="right">执行后返回一个整数，代表更新的条数</td>
+</tr>
+<tr>
+<td>delete</td>
+<td align="center">删除语句</td>
+<td align="right">执行后返回一个整数，代表删除的条数</td>
+</tr>
+<tr>
+<td>sql</td>
+<td align="center">允许定义一部分SQL，然后在各个地方引用它</td>
+<td align="right">例如一张表的列名，可以重复使用</td>
+</tr>
+<tr>
+<td>resultMap</td>
+<td align="center">用来描述从数据库结果集中来加载对象，它是最强大、最复杂的元素</td>
+<td align="right">它将提供<strong>映射规则</strong></td>
+</tr>
+<tr>
+<td>cache</td>
+<td align="center">给定命名空间的缓存设置</td>
+<td align="right">-</td>
+</tr>
+<tr>
+<td>cache-ref</td>
+<td align="center">其他命名空间缓存配置的应用</td>
+<td align="right">-</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><p>select中的元素配置</p>
+<table>
+<thead>
+<tr>
+<th>元素名称</th>
+<th align="center">描述</th>
+<th align="right">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td align="center">它和Mapper的命名空间组合起来是唯一的，供MyBatis调用</td>
+<td align="right">如果结合起来不唯一，那么将抛出异常</td>
+</tr>
+<tr>
+<td>parameterType</td>
+<td align="center">可以给出类的全命名，也可以给出别名</td>
+<td align="right">可以选择Map等简单的参数类型传递给SQL</td>
+</tr>
+<tr>
+<td>resultType</td>
+<td align="center">定义类的全路径，在允许自动匹配的情况下，结果集将通过javaBean的方式自动映射，不能与resultMap同时使用</td>
+<td align="right">常用的参数之一，比如统计总条目时可以把它的值设置为int</td>
+</tr>
+<tr>
+<td>resultMap</td>
+<td align="center">提供自定义的映射规则</td>
+<td align="right">可以配置映射规则、级联、typeHandler等</td>
+</tr>
+<tr>
+<td>flushCache</td>
+<td align="center">调用SQL后，是否要求清空之前查询的本地缓存和二级缓存</td>
+<td align="right">默认值为false</td>
+</tr>
+<tr>
+<td>useCache</td>
+<td align="center">启动二级缓存的开关</td>
+<td align="right">默认为true</td>
+</tr>
+</tbody></table>
+<h3 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h3><p>xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">        &lt;!DOCTYPE mapper</span><br><span class="line">                PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">                &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.xiaozhong.dao.UserDao&quot;&gt;</span><br><span class="line">&lt;!-- 配置查询所有--&gt;</span><br><span class="line">&lt;select id=&quot;findAll&quot; resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">&lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    //查询所有操作</span><br><span class="line">    List&lt;User&gt; findAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多个参数的传递"><a href="#多个参数的传递" class="headerlink" title="多个参数的传递"></a>多个参数的传递</h3><ol>
+<li>使用map接口传递参数<br><code>public Lisr&lt;User&gt; findUsersByMap(Map&lt;String,Object&gt; parameterMap);</code></li>
+</ol>
+<p>xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;findUsersByMap&quot; parameterType=&quot;map&quot; resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">        select id,user_name,note from user</span><br><span class="line">        where user_name like concat(&apos;%&apos;,#&#123;user_name&#125;,&apos;%&apos;)</span><br><span class="line">        and note like concat(&apos;%&apos;,#&#123;note&#125;,&apos;%&apos;)</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用注解</li>
+</ol>
+<p><code>public Lisr&lt;User&gt; findUsersByAnnotation(@param(&quot;user_name&quot;)String user_name,@param(&quot;note&quot;)String note);</code></p>
+<p>xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;findUsersByAnnotation&quot; resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">        select id,user_name,note from user</span><br><span class="line">        where user_name like concat(&apos;%&apos;,#&#123;user_name&#125;,&apos;%&apos;)</span><br><span class="line">        and note like concat(&apos;%&apos;,#&#123;note&#125;,&apos;%&apos;)</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<p>可读性大大提高</p>
+<ol start="3">
+<li>Java Bean</li>
+</ol>
+<p>先定义一个参数的POJO</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class UserParams&#123;</span><br><span class="line">	private String username;</span><br><span class="line">	private String note;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口<br><code>public Lisr&lt;User&gt; findUsersByBean(UserParams userparams);</code></p>
+<p>xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;findUsersByBean&quot; parameterType=&quot;com.ssm.pojo.UserParams&quot;</span><br><span class="line">		resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">        select id,user_name,note from user</span><br><span class="line">        where user_name like concat(&apos;%&apos;,#&#123;user_name&#125;,&apos;%&apos;)</span><br><span class="line">        and note like concat(&apos;%&apos;,#&#123;note&#125;,&apos;%&apos;)</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<p>u1s1,我觉得第三种最好用</p>
+<h3 id="resultMap映射结果集"><a href="#resultMap映射结果集" class="headerlink" title="resultMap映射结果集"></a>resultMap映射结果集</h3><p>自动映射和驼峰映射比较简单，无法定义多的属性，例如typeHandler,级联等<br>为了支持复杂的映射，select提供resultMap属性</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;mapper namespace=&quot;com.xiaozhong.dao.UserDao&quot;&gt;</span><br><span class="line">&lt;resultMap id=&quot;userMap&quot; type=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">	&lt;!--主键--&gt;</span><br><span class="line">	&lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;</span><br><span class="line">	&lt;result property=&quot;userName&quot; column=&quot;user_name&quot;/&gt;</span><br><span class="line">	&lt;result property=&quot;note&quot; column=&quot;note&quot;/&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br><span class="line">&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;</span><br><span class="line">        select * from user</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页参数-RowBounds"><a href="#分页参数-RowBounds" class="headerlink" title="分页参数 RowBounds"></a>分页参数 RowBounds</h3><p>使用它十分简单，在接口添加一个RowBounds参数即可</p>
+<p><code>public Lisr&lt;User&gt; findUsers(RowBounds rowBounds);</code></p>
+<p>然后，映射文件中不需要写这个参数，MyBatis会自动识别它</p>
+<p>Main</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SqlSession = SqlSessionFactoryBuild.build(config.xml).openSqlSession;</span><br><span class="line">UserDao userDao = session.getMapper(UserDao.class);</span><br><span class="line">RowBounds rowBounds = new RowBounds(0,20);</span><br><span class="line">List&lt;User&gt; userlist = userDao.findUsers(rowBounds);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="insert元素"><a href="#insert元素" class="headerlink" title="insert元素"></a>insert元素</h2><p>insert多出来的元素</p>
+<table>
+<thead>
+<tr>
+<th>元素名称</th>
+<th align="center">描述</th>
+<th align="right">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>useGeneratedKeys</td>
+<td align="center">是否启用JDBC的getGeneratedKeys方法来取出由数据库内部生成的主键</td>
+<td align="right">默认值为false</td>
+</tr>
+<tr>
+<td>keyProperty</td>
+<td align="center">唯一标记一个属性，通过useGeneratedKeys的返回值来设置它的键值</td>
+<td align="right">默认值为unset</td>
+</tr>
+</tbody></table>
+<h3 id="一条简单的insert语句"><a href="#一条简单的insert语句" class="headerlink" title="一条简单的insert语句"></a>一条简单的insert语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;insertuser&quot; parameterType=&quot;user&quot;&gt;</span><br><span class="line">	insert into user(user_name,note) values(#&#123;roleName&#125;,#&#123;note&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接口就不写了，一句话而已</p>
+<h3 id="主键回填"><a href="#主键回填" class="headerlink" title="主键回填"></a>主键回填</h3><p>上一条是最简单的插入语句，但是它没有插入id列，因为MySql中的表格采用了自增主键，会为该记录自动生成。</p>
+<p>如果想拿到主键，就先打开 useGeneratedKeys 再把主键通过 keyProperty 放到属性中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;insertuser&quot; parameterType=&quot;user&quot;</span><br><span class="line">		useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot; &gt;</span><br><span class="line">	insert into user(user_name,note) values(#&#123;roleName&#125;,#&#123;note&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+
+<p>updata和delete元素和insert基本一样</p>
+<hr>
+<h2 id="sql元素"><a href="#sql元素" class="headerlink" title="sql元素"></a>sql元素</h2><p>作用在于定义一条sql的一部分，方便后面的sql引用它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;sql id=&quot;userCols&quot;&gt;</span><br><span class="line">	id,user_name,note</span><br><span class="line">&lt;/sql&gt;</span><br><span class="line">&lt;select id=&quot;findAll&quot; resultType=&quot;com.xiaozhong.domain.User&quot;&gt;</span><br><span class="line">    select &lt;include refid=&quot;userCols&quot;/&gt; from user</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p>还支持变量传递o</p>
+<hr>
+<h2 id="resultMap"><a href="#resultMap" class="headerlink" title="resultMap"></a>resultMap</h2><p>元素构成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;resulMap&gt;</span><br><span class="line">	&lt;constructor&gt; //配置构造方法</span><br><span class="line">		&lt;idArg/&gt;  //主键</span><br><span class="line">		&lt;arg/&gt;</span><br><span class="line">	&lt;/constructor&gt;</span><br><span class="line">	&lt;id/&gt;  //主键</span><br><span class="line">	&lt;result/&gt;</span><br><span class="line">	&lt;association/&gt;  //级联 1v1</span><br><span class="line">	&lt;collection/&gt;</span><br><span class="line">	&lt;discriminator&gt;</span><br><span class="line">		&lt;case/&gt;</span><br><span class="line">	&lt;/discriminator&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>一级缓存是在SqlSession上的缓存。默认情况下MyBatis会开启一级缓存</p>
+<p>当使用同一个SqlSession对象获取数据时，如果第二次的SQL和参数都没有发生变化，并且缓存没有超时，那么它就会从缓存中获取而不是通过SQL获取</p>
+<p>而二级缓存默认关闭的，开启它很简单，只需要在配置文件中加 <code>&lt;cache/&gt;</code></p>
+<p>但这个时候要求POJO是一个可序列化的对象，那么它必须实现java.io.Serializable接口，否则会抛出异常</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/06/10/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" rel="next" title="Mybatis入门：基础配置">
+                  <i class="fa fa-chevron-left"></i> Mybatis入门：基础配置
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/06/15/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E5%8A%A8%E6%80%81SQL/" rel="prev" title="Mybatis入门：动态SQL">
+                  Mybatis入门：动态SQL <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select"><span class="nav-number">2.</span> <span class="nav-text">select</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个简单的例子"><span class="nav-number">2.1.</span> <span class="nav-text">一个简单的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个参数的传递"><span class="nav-number">2.2.</span> <span class="nav-text">多个参数的传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resultMap映射结果集"><span class="nav-number">2.3.</span> <span class="nav-text">resultMap映射结果集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分页参数-RowBounds"><span class="nav-number">2.4.</span> <span class="nav-text">分页参数 RowBounds</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert元素"><span class="nav-number">3.</span> <span class="nav-text">insert元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一条简单的insert语句"><span class="nav-number">3.1.</span> <span class="nav-text">一条简单的insert语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主键回填"><span class="nav-number">3.2.</span> <span class="nav-text">主键回填</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sql元素"><span class="nav-number">4.</span> <span class="nav-text">sql元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resultMap"><span class="nav-number">5.</span> <span class="nav-text">resultMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">6.</span> <span class="nav-text">缓存</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+     <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+     <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+  
+</body>
+</html>
+
+
+
