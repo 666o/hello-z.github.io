@@ -51,16 +51,19 @@
   };
 </script>
 
-  <meta name="description" content="愿有朝一日鲜衣怒马">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小鐘のblog">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2019&#x2F;index.html">
+  <meta name="description" content="在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring入门：IOC与DI">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;27&#x2F;Spring%E5%85%A5%E9%97%A8%EF%BC%9AAOP&#x2F;index.html">
 <meta property="og:site_name" content="小鐘のblog">
-<meta property="og:description" content="愿有朝一日鲜衣怒马">
+<meta property="og:description" content="在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;22.png">
+<meta property="og:updated_time" content="2020-01-13T07:38:59.014Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE&#x2F;22.png">
 
-<link rel="canonical" href="http://yoursite.com/archives/2019/">
+<link rel="canonical" href="http://yoursite.com/2019/06/27/Spring%E5%85%A5%E9%97%A8%EF%BC%9AAOP/">
 
 
 <script id="page-configurations">
@@ -68,13 +71,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | 小鐘のblog</title>
+  <title>Spring入门：IOC与DI | 小鐘のblog</title>
   
 
 
@@ -169,232 +172,118 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 26 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/27/Spring%E5%85%A5%E9%97%A8%EF%BC%9AAOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring入门：IOC与DI
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-27 13:13:45" itemprop="dateCreated datePublished" datetime="2019-06-27T13:13:45+08:00">2019-06-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-13 15:38:59" itemprop="dateModified" datetime="2020-01-13T15:38:59+08:00">2020-01-13</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-19T21:54:49+08:00"
-              content="2019-11-19">
-          11-19
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/19/%E8%B5%9B%EF%BC%8C%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%B5%9B%EF%BC%81/" itemprop="url">
-            <span itemprop="name">赛，都可以赛！</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-13T21:10:06+08:00"
-              content="2019-11-13">
-          11-13
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/13/%E8%B1%86%E7%93%A3%E7%88%AC%E8%99%AB%E4%B8%8E%E7%A3%81%E5%8A%9B%E7%BD%91%E7%AB%99/" itemprop="url">
-            <span itemprop="name">豆瓣爬虫与磁力网站</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-05T18:57:29+08:00"
-              content="2019-11-05">
-          11-05
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/05/%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%87%BA%E7%94%9F%E8%BF%87%E7%A8%8B/" itemprop="url">
-            <span itemprop="name">这个博客的出生过程</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-27T13:13:45+08:00"
-              content="2019-06-27">
-          06-27
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/27/Spring%E5%85%A5%E9%97%A8%EF%BC%9AAOP/" itemprop="url">
-            <span itemprop="name">Spring入门：IOC与DI</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-25T13:25:44+08:00"
-              content="2019-06-25">
-          06-25
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/25/Spring%E5%85%A5%E9%97%A8%EF%BC%9AIOC%E4%B8%8EDI/" itemprop="url">
-            <span itemprop="name">Spring入门：IOC与DI</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-22T13:28:44+08:00"
-              content="2019-06-22">
-          06-22
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/22/Spring%E5%85%A5%E9%97%A8%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" itemprop="url">
-            <span itemprop="name">Spring入门：基本概念</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-15T14:25:44+08:00"
-              content="2019-06-15">
-          06-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/15/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E5%8A%A8%E6%80%81SQL/" itemprop="url">
-            <span itemprop="name">Mybatis入门：动态SQL</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-13T13:55:14+08:00"
-              content="2019-06-13">
-          06-13
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/13/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%A0%E5%B0%84%E5%99%A8/" itemprop="url">
-            <span itemprop="name">Mybatis入门：映射器</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-10T12:51:22+08:00"
-              content="2019-06-10">
-          06-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/10/MyBatis%E5%85%A5%E9%97%A8%EF%BC%9A%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">Mybatis入门：基础配置</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-08T13:25:54+08:00"
-              content="2019-06-08">
-          06-08
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/08/Mybatis%E5%85%A5%E9%97%A8%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/" itemprop="url">
-            <span itemprop="name">Mybatis入门：核心组件</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+        <p><img src="/image/%E5%B0%81%E9%9D%A2%E5%9B%BE/22.png" alt="setup"></p>
+<p>在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程</p>
+<a id="more"></a>
+<hr>
+<h2 id="环绕通知"><a href="#环绕通知" class="headerlink" title="环绕通知"></a>环绕通知</h2><p>从基本概念中得知，除了前置后置之外，还有环绕通知</p>
+<p>环绕通知可以同时实现前置通知和后置通知</p>
+<p>使用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Around(&quot;execution(*</span><br><span class="line">		com.ssm.pojo.printRole(..))&quot;)</span><br><span class="line">public void around(ProceedingJoinPoint jp)&#123;</span><br><span class="line">	//前置</span><br><span class="line">	System.out.println(&quot;before&quot;);</span><br><span class="line"></span><br><span class="line">	jp.proceed();</span><br><span class="line"></span><br><span class="line">	//后置</span><br><span class="line">	System.out.println(&quot;after&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ProceedingJoinPoint参数是由Spring提供的，使用他可以链接反射连接点方法</p>
+<h2 id="织入"><a href="#织入" class="headerlink" title="织入"></a>织入</h2><p>织入是生成代理对象并将切面内容放进约定流程的过程</p>
+<p>如果接入点的类有接口，那么代理对象的生成是通过JDK的动态代理</p>
+<p>如果没有接口，那么会采用CGLIB来生成代理对象</p>
 
     </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/06/25/Spring%E5%85%A5%E9%97%A8%EF%BC%9AIOC%E4%B8%8EDI/" rel="next" title="Spring入门：IOC与DI">
+                  <i class="fa fa-chevron-left"></i> Spring入门：IOC与DI
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/05/%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%87%BA%E7%94%9F%E8%BF%87%E7%A8%8B/" rel="prev" title="这个博客的出生过程">
+                  这个博客的出生过程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="page-number" href="/archives/2019/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
@@ -423,6 +312,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环绕通知"><span class="nav-number">1.</span> <span class="nav-text">环绕通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#织入"><span class="nav-number">2.</span> <span class="nav-text">织入</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
