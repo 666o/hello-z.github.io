@@ -21,7 +21,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '7.5.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
@@ -51,18 +51,32 @@
   };
 </script>
 
-  <meta name="description" content="冲冲冲！ 学习爬虫这么久了，也该提升提升自己的技能了 慢慢开始学习js逆向相关的，今天开始第一个 江湖中传言刚被开发出的第一天就被破解的：*eval混淆 *">
+  <meta name="description" content="冲冲冲！ 学习爬虫这么久了，也该提升提升自己的技能了 慢慢开始学习js逆向相关的，今天开始第一步。 江湖中传言刚被开发出的第一天就被破解的：eval混淆">
+<meta name="keywords" content="爬虫,逆向">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js逆向_eval混淆">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;29&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;index.html">
 <meta property="og:site_name" content="小鐘のblog">
-<meta property="og:description" content="冲冲冲！ 学习爬虫这么久了，也该提升提升自己的技能了 慢慢开始学习js逆向相关的，今天开始第一个 江湖中传言刚被开发出的第一天就被破解的：*eval混淆 *">
+<meta property="og:description" content="冲冲冲！ 学习爬虫这么久了，也该提升提升自己的技能了 慢慢开始学习js逆向相关的，今天开始第一步。 江湖中传言刚被开发出的第一天就被破解的：eval混淆">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E4%B9%A6%E7%AD%BE%E5%9C%B0%E7%90%83&#x2F;%E5%B0%81%E9%9D%A2.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E7%BD%91%E7%AB%99%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E7%9B%AE%E6%A0%87.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E8%BF%94%E5%9B%9E%E6%BA%90%E7%A0%81.png">
-<meta property="og:updated_time" content="2020-09-29T14:23:05.382Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;reurl%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;eval%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%9F%A5%E6%89%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E8%BF%9B%E5%85%A5recode.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;recode%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E7%BF%BB%E8%AF%91.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E7%9B%AE%E6%A0%87%E7%BD%91%E7%AB%992.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E8%BF%94%E5%9B%9E%E6%BA%90%E7%A0%812.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;FFpropellent%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;ddip%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;ddip.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86&#x2F;%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F2.png">
+<meta property="og:updated_time" content="2020-10-03T01:54:49.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;%E4%B9%A6%E7%AD%BE%E5%9C%B0%E7%90%83&#x2F;%E5%B0%81%E9%9D%A2.jpg">
 
@@ -149,6 +163,16 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
@@ -202,9 +226,26 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-29 21:39:14 / 修改时间：22:23:05" itemprop="dateCreated datePublished" datetime="2020-09-29T21:39:14+08:00">2020-09-29</time>
+              <time title="创建时间：2020-09-29 21:39:14" itemprop="dateCreated datePublished" datetime="2020-09-29T21:39:14+08:00">2020-09-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-03 09:54:49" itemprop="dateModified" datetime="2020-10-03T09:54:49+08:00">2020-10-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -227,8 +268,8 @@
       
         <p><img src="/image/%E4%B9%A6%E7%AD%BE%E5%9C%B0%E7%90%83/%E5%B0%81%E9%9D%A2.jpg" alt="setup"><br>冲冲冲！</p>
 <p>学习爬虫这么久了，也该提升提升自己的技能了</p>
-<p>慢慢开始学习js逆向相关的，今天开始第一个</p>
-<p>江湖中传言刚被开发出的第一天就被破解的：*<em>eval混淆 *</em></p>
+<p>慢慢开始学习js逆向相关的，今天开始第一步。</p>
+<p>江湖中传言刚被开发出的第一天就被破解的：<strong>eval混淆</strong></p>
 <a id="more"></a>
 
 
@@ -240,14 +281,83 @@
 <p>我们的目标是：</p>
 <p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E7%9B%AE%E6%A0%87.png" alt="目标截图"></p>
 <p>得到这个二级页面的url，然后获取二级页面的信息。</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* python <span class="number">3.7</span></span><br><span class="line">* requests <span class="number">2.22</span><span class="number">.0</span></span><br><span class="line">* lxml <span class="number">4.4</span><span class="number">.2</span></span><br><span class="line">* PyExecJS <span class="number">1.5</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* python <span class="number">3.7</span></span><br><span class="line">* requests <span class="number">2.22</span><span class="number">.0</span></span><br><span class="line">* lxml <span class="number">4.4</span><span class="number">.2</span></span><br><span class="line">* PyExecJS <span class="number">1.5</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
 
 <p>如果没有的模块就自己手动<code>pip install</code> 一下吧</p>
 <p>注意：PyExecJS 需要一个环境来运行JS代码，我这里用的是Node.js</p>
-<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><p>首先我们F12一下</p>
+<h2 id="爬虫思路"><a href="#爬虫思路" class="headerlink" title="爬虫思路"></a>爬虫思路</h2><p>首先我们F12一下</p>
 <p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E8%BF%94%E5%9B%9E%E6%BA%90%E7%A0%81.png" alt="源码"></p>
 <p>可以看出，这里没有直接给出二级页面的url ，而是调用了 <strong>reurl</strong> 函数</p>
 <p><code>onclick=&quot;reurl(this)&quot;</code></p>
+<p>那我们就来看一下这个函数</p>
+<p>(到 <strong>Sources</strong> 页面下 <strong>ctrl+shift+F</strong> 全局搜索) </p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/reurl%E5%87%BD%E6%95%B0.png" alt="reurl函数"></p>
+<p>可以看出有两个文件出现了这个关键词</p>
+<p>第二个是页面文件，那么我们要找的应该是第一个了</p>
+<p>接下来就点击第一个结果，进去看看具体代码</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/eval%E5%87%BD%E6%95%B0.png" alt="reurl函数"></p>
+<p>可以看出这个就是被eval给加密了</p>
+<p>那怎么解密呢？</p>
+<p>这个地方有一个小技巧</p>
+<p><strong>通过chrome的 Console</strong></p>
+<p>输入函数名，然后回车，具体的函数就出现了!</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%9F%A5%E6%89%BE.png" alt="reurl函数"></p>
+<p>双击后就会跳转到函数的具体位置或者解密后的函数。</p>
+<p>得到具体函数之后我们就开始：<strong>断点调试</strong></p>
+<p>首先来看一下这个函数，它接收页面元素的 <strong>id</strong> 然后返回二级页面的url</p>
+<p>这个时候在此处打一个断点(点击行号)，返回主页随便再点一个二级页面</p>
+<p>这时候把鼠标放到recode函数上，会弹出函数的具体位置，这时候点进去。</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E8%BF%9B%E5%85%A5recode.png" alt="reurl函数"></p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/recode%E5%87%BD%E6%95%B0.png" alt="reurl函数"></p>
+<p>可以看到recode函数中调用了一大推函数，如nscaler\SetObjNum等</p>
+<p>这个时候就需要按照以上的步骤一个一个函数的翻出来</p>
+<p>最后翻出来的函数链如下：</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F.png" alt="reurl函数"></p>
+<p>最后就是需要把这些函数翻译成能够执行的样子</p>
+<p>如<strong>reurl</strong> </p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E7%BF%BB%E8%AF%91.png" alt="reurl函数"></p>
+<p>这个时候已经基本完成了对二级页面url的解析，</p>
+<p>剩下的就是在python中运行该我们翻译后的js代码以及页面元素的简单解析了</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_url</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reurl</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="string">"/item/"</span> + recode(id);</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">recode</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> n = nscaler(a);</span><br><span class="line">        <span class="keyword">var</span> c = SetObjNum(<span class="built_in">String</span>(a).length);</span><br><span class="line">        <span class="keyword">var</span> d = SetObjNum(<span class="built_in">String</span>(a).length);</span><br><span class="line">        n = <span class="built_in">parseInt</span>(n) + <span class="built_in">parseInt</span>(d);</span><br><span class="line">        <span class="keyword">var</span> b = <span class="number">1601260796750</span>;</span><br><span class="line">        b = nscaler(b.toString());</span><br><span class="line">        <span class="keyword">return</span> c + <span class="string">"-"</span> + n + <span class="string">"-"</span> + d + <span class="string">"-"</span> + b</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">SetObjNum</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">            a += <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">nscaler</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> b = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">var</span> ar = <span class="built_in">String</span>(a).split(<span class="string">''</span>);</span><br><span class="line">        each(ar, <span class="function"><span class="keyword">function</span>(<span class="params">i, e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">switch</span> (e) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"0"</span>:</span><br><span class="line">                    b += <span class="string">"0"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"1"</span>:</span><br><span class="line">                    b += <span class="string">"2"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"2"</span>:</span><br><span class="line">                    b += <span class="string">"5"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"3"</span>:</span><br><span class="line">                    b += <span class="string">"8"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"4"</span>:</span><br><span class="line">                    b += <span class="string">"6"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"5"</span>:</span><br><span class="line">                    b += <span class="string">"1"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"6"</span>:</span><br><span class="line">                    b += <span class="string">"3"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"7"</span>:</span><br><span class="line">                    b += <span class="string">"4"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"8"</span>:</span><br><span class="line">                    b += <span class="string">"9"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"9"</span>:</span><br><span class="line">                    b += <span class="string">"7"</span>;</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> b</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">each</span>(<span class="params">e, t</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> n, r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (p(e)) &#123;</span><br><span class="line">            <span class="keyword">for</span> (n = e.length; r &lt; n; r++)</span><br><span class="line">                <span class="keyword">if</span> (!<span class="number">1</span> === t.call(e[r], r, e[r]))</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">for</span> (r <span class="keyword">in</span> e)</span><br><span class="line">                <span class="keyword">if</span> (!<span class="number">1</span> === t.call(e[r], r, e[r]))</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">return</span> e</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">p</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> t = !!e &amp;&amp; <span class="string">"length"</span> <span class="keyword">in</span> e &amp;&amp; e.length,</span><br><span class="line">            n = w(e);</span><br><span class="line">        <span class="keyword">return</span> !m(e) &amp;&amp; !x(e) &amp;&amp; (<span class="string">"array"</span> === n || <span class="number">0</span> === t || <span class="string">"number"</span> == <span class="keyword">typeof</span> t &amp;&amp; <span class="number">0</span> &lt; t &amp;&amp; t - <span class="number">1</span> <span class="keyword">in</span> e)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">w</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span> == e ? e + <span class="string">""</span> : <span class="string">"object"</span> == <span class="keyword">typeof</span> e || <span class="string">"function"</span> == <span class="keyword">typeof</span> e ? <span class="string">"array"</span> : <span class="keyword">typeof</span> e</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">m</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"function"</span> == <span class="keyword">typeof</span> e &amp;&amp; <span class="string">"number"</span> != <span class="keyword">typeof</span> e.nodeType</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span> != e &amp;&amp; e === e.window</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reurl()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>爬虫代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">time : 2020/09/27</span></span><br><span class="line"><span class="string">auther : Nr.zhong</span></span><br><span class="line"><span class="string">url: http://60.173.254.126/</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> execjs</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spider</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.session = requests.Session()</span><br><span class="line">        self.url = <span class="string">'http://60.173.254.126'</span></span><br><span class="line">        self.hearder = &#123;</span><br><span class="line">        <span class="string">'Cookie'</span>: <span class="string">'Hm_lvt_9420486f163c1359cfa75ea597f464e4=1601177410; yunsuo_session_verify=9b26c6166b4e35c4ed40507aa28407a7; Hm_lpvt_9420486f163c1359cfa75ea597f464e4=1601261225'</span>,</span><br><span class="line">        <span class="string">'Host'</span>: <span class="string">'60.173.254.126'</span>,</span><br><span class="line">        <span class="string">'Referer'</span>: <span class="string">'http://60.173.254.126/'</span>,</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        html = self.session.get(self.url,headers=self.hearder)</span><br><span class="line">        html_etree = etree.HTML(html.content.decode(<span class="string">'utf8'</span>))</span><br><span class="line">        <span class="keyword">for</span> id <span class="keyword">in</span> html_etree.xpath(<span class="string">'//span[@class="nav1"]/a/@id'</span>):</span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">r".\text.js"</span>,encoding=<span class="string">'gbk'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                js_code = f.read()</span><br><span class="line">    </span><br><span class="line">            ctx = execjs.compile(js_code)</span><br><span class="line">            url = self.url + ctx.call(<span class="string">"get_url"</span>,id)</span><br><span class="line">            self.deal(url)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deal</span><span class="params">(self,url)</span>:</span></span><br><span class="line">        html = self.session.get(url,headers=self.hearder)</span><br><span class="line">        html_etree = etree.HTML(html.content.decode(<span class="string">'utf8'</span>))</span><br><span class="line">        print(html_etree.xpath(<span class="string">'//dl[@class="lbox"]/dd[1]/text()'</span>))</span><br><span class="line">        print(html_etree.xpath(<span class="string">'//dl[@class="lbox"]/dd[3]/text()'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    s = Spider()</span><br><span class="line">    s.start()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h1><p>网址 <a href="https://www.baibianip.com/home/free.html" target="_blank" rel="noopener">百变IP</a></p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E7%9B%AE%E6%A0%87%E7%BD%91%E7%AB%992.png" alt="目标网站"></p>
+<p>我们的目标是：每条IP信息的数据</p>
+<h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><p>同上</p>
+<h2 id="爬虫思路-1"><a href="#爬虫思路-1" class="headerlink" title="爬虫思路"></a>爬虫思路</h2><p>首先还是F12一下</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E8%BF%94%E5%9B%9E%E6%BA%90%E7%A0%812.png" alt="源码"></p>
+<p>返回的页面代码中，只有具体的IP地址没有直接给出</p>
+<p>而是调用了<code>FFpropellent()</code>函数</p>
+<p>我们来全局搜索一下</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/FFpropellent%E5%87%BD%E6%95%B0.png" alt="FFpropellent函数"></p>
+<p>（这个函数名称每次会有变化，不一定叫FFpropellent）</p>
+<p>接下来就是熟悉的断点调试加追根溯源了</p>
+<p>操作方法和案例一 一样</p>
+<p>但是，这里有一个坑。因为它每次调用的FF***函数都不同，所以打的断点就没啥用，因为你下一次刷新页面可能就不调这个函数了</p>
+<p>但是所有的FF***函数都有一个共同点 调用<code>ddip()</code>函数</p>
+<p>我们就直接从ddip函数开始</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/ddip%E5%87%BD%E6%95%B0.png" alt="DDIP函数"></p>
+<p>但是ddip函数是被eval混淆了的</p>
+<p>然后控制台输入，开始断点调试就好勒</p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/ddip.png" alt="DDIP函数"></p>
+<p><img src="/image/js%E9%80%86%E5%90%91_eval%E6%B7%B7%E6%B7%86/%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F2.png" alt="调用顺序"></p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_id</span>(<span class="params">e0</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b64 = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</span>,</span><br><span class="line">        a256 = <span class="string">''</span>,</span><br><span class="line">        r64 = [<span class="number">256</span>],</span><br><span class="line">        r256 = [<span class="number">256</span>],</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="number">256</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> c = <span class="built_in">String</span>.fromCharCode(i);</span><br><span class="line">        a256 += c;</span><br><span class="line">        r256[i] = i;</span><br><span class="line">        r64[i] = b64.indexOf(c);</span><br><span class="line">        ++i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ddip</span>(<span class="params">e0</span>) </span>&#123;</span><br><span class="line">        e1 = r13(e0.toString());</span><br><span class="line">        e2 = decode(e1);</span><br><span class="line">        e3 = e2.toString().substr(<span class="number">10</span>);</span><br><span class="line">        l3 = e3.length;</span><br><span class="line">        e4 = e3.substr(<span class="number">0</span>, l3 - <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">return</span> e4</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">r13</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> b = [],</span><br><span class="line">            c, i = s.length,</span><br><span class="line">            a = <span class="string">'a'</span>.charCodeAt(),</span><br><span class="line">            z = a + <span class="number">26</span>,</span><br><span class="line">            A = <span class="string">'A'</span>.charCodeAt(),</span><br><span class="line">            Z = A + <span class="number">26</span>;</span><br><span class="line">        <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">            c = s.charCodeAt(i);</span><br><span class="line">            <span class="keyword">if</span> (c &gt;= a &amp;&amp; c &lt; z) &#123;</span><br><span class="line">                b[i] = rot(c, a, <span class="number">13</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= A &amp;&amp; c &lt; Z) &#123;</span><br><span class="line">                b[i] = rot(c, A, <span class="number">13</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                b[i] = s.charAt(i)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b.join(<span class="string">''</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">rot</span>(<span class="params">t, u, v</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode(((t - u + v) % (v * <span class="number">2</span>)) + u)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">decode</span>(<span class="params">coded, utf8decode</span>) </span>&#123;</span><br><span class="line">        coded = <span class="built_in">String</span>(coded).split(<span class="string">'='</span>);</span><br><span class="line">        <span class="keyword">var</span> i = coded.length;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            --i;</span><br><span class="line">            coded[i] = code(coded[i], <span class="literal">true</span>, r64, a256, <span class="number">6</span>, <span class="number">8</span>);</span><br><span class="line">        &#125; <span class="keyword">while</span> (i &gt; <span class="number">0</span>);</span><br><span class="line">        coded = coded.join(<span class="string">''</span>);</span><br><span class="line">        <span class="keyword">return</span> coded;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">code</span>(<span class="params">s, discard, alpha, beta, w1, w2</span>) </span>&#123;</span><br><span class="line">        s = <span class="built_in">String</span>(s);</span><br><span class="line">        <span class="keyword">var</span> buffer = <span class="number">0</span></span><br><span class="line">          , i = <span class="number">0</span></span><br><span class="line">          , length = s.length</span><br><span class="line">          , result = <span class="string">''</span></span><br><span class="line">          , bitsInBuffer = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; length) &#123;</span><br><span class="line">            <span class="keyword">var</span> c = s.charCodeAt(i);</span><br><span class="line">            c = c &lt; <span class="number">256</span> ? alpha[c] : <span class="number">-1</span>;</span><br><span class="line">            buffer = (buffer &lt;&lt; w1) + c;</span><br><span class="line">            bitsInBuffer += w1;</span><br><span class="line">            <span class="keyword">while</span> (bitsInBuffer &gt;= w2) &#123;</span><br><span class="line">                bitsInBuffer -= w2;</span><br><span class="line">                <span class="keyword">var</span> tmp = buffer &gt;&gt; bitsInBuffer;</span><br><span class="line">                result += beta.charAt(tmp);</span><br><span class="line">                buffer ^= tmp &lt;&lt; bitsInBuffer;</span><br><span class="line">            &#125;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!discard &amp;&amp; bitsInBuffer &gt; <span class="number">0</span>)</span><br><span class="line">            result += beta.charAt(buffer &lt;&lt; (w2 - bitsInBuffer));</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ddip(e0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>爬虫</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">time : 2020/09/28</span></span><br><span class="line"><span class="string">auther : Nr.zhong</span></span><br><span class="line"><span class="string">url: https://www.baibianip.com/home/free.html</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> execjs</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spider</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.session = requests.Session()</span><br><span class="line">        self.url = <span class="string">'https://www.baibianip.com/home/free.html'</span></span><br><span class="line">        self.hearder = &#123;</span><br><span class="line">        <span class="string">'Cookie'</span>: <span class="string">'c4ca4238_allowreg=2'</span>,</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        html = self.session.get(self.url,headers=self.hearder)</span><br><span class="line">        html_etree = etree.HTML(html.content.decode(<span class="string">'utf8'</span>))</span><br><span class="line">        <span class="keyword">for</span> tr <span class="keyword">in</span> html_etree.xpath(<span class="string">'//tr'</span>):</span><br><span class="line">            <span class="keyword">if</span> len(tr.xpath(<span class="string">'td/text()'</span>)) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">r".\test.js"</span>,encoding=<span class="string">'gbk'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                js_code = f.read()</span><br><span class="line">    </span><br><span class="line">            ctx = execjs.compile(js_code)</span><br><span class="line">            e0 = str(tr.xpath(<span class="string">'td/script/text()'</span>)[<span class="number">0</span>]).split(<span class="string">"'"</span>)[<span class="number">1</span>]</span><br><span class="line">            print(ctx.call(<span class="string">"get_id"</span>,e0))</span><br><span class="line">            print(tr.xpath(<span class="string">'td[2]/text()'</span>))</span><br><span class="line">            print(tr.xpath(<span class="string">'td[3]/text()'</span>))</span><br><span class="line">            print(tr.xpath(<span class="string">'td[7]/text()'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    s = Spider()</span><br><span class="line">    s.start()</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>完结撒花-v-</p>
 
     </div>
 
@@ -266,6 +376,10 @@
       </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/%E9%80%86%E5%90%91/" rel="tag"># 逆向</a>
+          </div>
 
         
 
@@ -317,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#案例一"><span class="nav-number">1.</span> <span class="nav-text">案例一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫"><span class="nav-number">1.3.</span> <span class="nav-text">爬虫</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#案例一"><span class="nav-number">1.</span> <span class="nav-text">案例一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫思路"><span class="nav-number">1.2.</span> <span class="nav-text">爬虫思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例二"><span class="nav-number">2.</span> <span class="nav-text">案例二</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境-1"><span class="nav-number">2.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫思路-1"><span class="nav-number">2.2.</span> <span class="nav-text">爬虫思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -336,6 +450,18 @@
           <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -373,7 +499,7 @@
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
   </div>
 
         
@@ -419,7 +545,7 @@
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
 
@@ -446,12 +572,12 @@
   
 
 
-  
-     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
-     <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
-     <script type="text/javascript" src="/js/src/fireworks.js"></script>
-  
-  
+  <script type="text/javascript" src="/js/src/click.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript"
+  color="220,220,220" opacity='0.7' zIndex="-2" count="200" src=" //cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
 </body>
 </html>
 
