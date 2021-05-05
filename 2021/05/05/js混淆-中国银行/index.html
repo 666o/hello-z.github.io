@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="保持周更？？？ 冲冲冲！">
+<meta name="keywords" content="爬虫,逆向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js混淆-中国银行">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;05&#x2F;05&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="保持周更？？？ 冲冲冲！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;%E8%AF%A6%E6%83%85%E9%A1%B5%E5%9C%B0%E5%9D%80.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;fiddler.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;fiddler2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;eval%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;url%E5%AF%B9%E6%AF%94.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;js%E6%B7%B7%E6%B7%86.png">
+<meta property="og:updated_time" content="2021-05-05T08:21:17.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;image&#x2F;js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C&#x2F;%E5%B0%81%E9%9D%A2%E5%9B%BE.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/05/05/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>js混淆-中国银行 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/05/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          js混淆-中国银行
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-05 14:20:56 / 修改时间：16:21:17" itemprop="dateCreated datePublished" datetime="2021-05-05T14:20:56+08:00">2021-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/%E5%B0%81%E9%9D%A2%E5%9B%BE.png" alt="setup"></p>
+<p>保持周更？？？</p>
+<p>冲冲冲！</p>
+<a id="more"></a>
+
+
+
+<h2 id="目标分析"><a href="#目标分析" class="headerlink" title="目标分析"></a>目标分析</h2><p>首先 网站地址：<a href="http://www.pbc.gov.cn/rmyh/105208/index.html" target="_blank" rel="noopener">中行/公告</a></p>
+<p>先拿详情页的地址：</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/%E8%AF%A6%E6%83%85%E9%A1%B5%E5%9C%B0%E5%9D%80.png" alt="详情页地址"></p>
+<p>直接请求列表页的话</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">'http://www.pbc.gov.cn/rmyh/105208/index.html'</span></span><br><span class="line">   response = requests.get(url)</span><br></pre></td></tr></table></figure>
+
+<p>会得到这个：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">noscript</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;<span class="name">strong</span>&gt;</span>请开启JavaScript并刷新该页.<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">eval</span>(<span class="function"><span class="keyword">function</span>(<span class="params">p, a, c, k, e, r</span>) </span>&#123; e = <span class="function"><span class="keyword">function</span>(<span class="params">c</span>) </span>&#123; <span class="keyword">return</span> c.toString(a) &#125;; <span class="keyword">if</span> (!<span class="string">''</span>.replace(<span class="regexp">/^/</span>, <span class="built_in">String</span>)) &#123; <span class="keyword">while</span> (c--) r[e(c)] = k[c] || e(c);</span></span><br><span class="line"><span class="actionscript">            k = [<span class="function"><span class="keyword">function</span><span class="params">(e)</span> </span>&#123; <span class="keyword">return</span> r[e] &#125;];</span></span><br><span class="line"><span class="actionscript">            e = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">'\\w+'</span> &#125;;</span></span><br><span class="line"><span class="actionscript">            c = <span class="number">1</span> &#125;; <span class="keyword">while</span> (c--)</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (k[c]) p = p.replace(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'\\b'</span> + e(c) + <span class="string">'\\b'</span>, <span class="string">'g'</span>), k[c]); </span></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> p </span></span><br><span class="line"><span class="actionscript">        	&#125;(<span class="string">'0 1="2";0 3="4";0 5="6";0 7="8";0 9="a";'</span>, <span class="number">11</span>, <span class="number">11</span>, <span class="string">'var|dynamicurl|/WZWSREL3JteWgvMTA1MjA4L2luZGV4Lmh0bWw=|wzwsquestion|z3lHl*r&#123;ykbow&amp;&#125;-Z|wzwsfactor|2516|wzwsmethod|WZWS_METHOD|wzwsparams|WZWS_PARAMS'</span>.split(<span class="string">'|'</span>), <span class="number">0</span>, &#123;&#125;));</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> encode_version = <span class="string">'sojson.v5'</span>,</span></span><br><span class="line"><span class="actionscript">        jezoh = <span class="string">'__0x3fb5e'</span>,</span></span><br><span class="line"><span class="actionscript">        __0x3fb5e = [<span class="string">'dcK9wotew5nCu2wvw6nCmsOvQcOONsOk'</span>, <span class="string">'K8Kow4fDhzDDqwdh'</span>, <span class="string">'UAATJSU='</span>, <span class="string">'wr8gw5HCqWw='</span>, <span class="string">'G8KzKhLDkA=='</span>, <span class="string">'wrLDisOUw4HDiTTCnsKnwqHCg8O2w7XClg=='</span>, <span class="string">'LmrDog4='</span>, <span class="string">'e8Ora13Dow=='</span>, <span class="string">'wodfacKQw5o='</span>, <span class="string">'w74Sw5FreA=='</span>, <span class="string">'wr94w6LDhMOgw4E='</span>, <span class="string">'wpkHw53DgsKKwrHDhcKbQ8Kpwp8='</span>, <span class="string">'dWPDons='</span>, <span class="string">'w7kbw7vDgMKb'</span>, <span class="string">'w6DDkFFwwp/Cq3jCjUXDsW8='</span>, <span class="string">'TBIbBAfDtw=='</span>, <span class="string">'wok5w7/ChDZV'</span>, <span class="string">'wq3CvlzCtw=='</span>, <span class="string">'wrHDsgzClQ=='</span>, <span class="string">'IcORUmfDlcOPDsOSwr06fMKgBMKcTQ=='</span>, <span class="string">'CgjDpSkw'</span>, <span class="string">'w5oWw5vDhMKk'</span>, <span class="string">'CcK4wpLDlEnCjnXClg=='</span>, <span class="string">'w7zDhsKwTMOW'</span>, <span class="string">'w7jDpFXCvcKm'</span>, <span class="string">'wrTDlsOUw6rDtA=='</span>, <span class="string">'w4bDn8KcXsOQVVHDkw=='</span>, <span class="string">'bMOAwr3CsVzDksKTcAc='</span>, <span class="string">'wodAb8KKw4HCrDBoaA=='</span>, <span class="string">'wrDDlMOUw5LDiQ=='</span>, <span class="string">'5Lm26ICj5Yu/6ZmGw5zDgxHCnMOywpZDM8KD'</span>, <span class="string">'VQPChSVsbsOvWMODRMOlwqBAWMKz'</span>, <span class="string">'U8K8TsOnHsKOWMOpb11CwpjDkcOJZTTChAbCixvDtcO0wplFwoZdwrswWcOiwq1sJsOnw50VHhfDgwXDoMKmDBTClsOkJ1RBKkc3YzQYw4zDuEUgY0xEX8KXwrU='</span>, <span class="string">'wpZYQsKjw7Y='</span>, <span class="string">'wqLDiMOdw4nDiQ=='</span>, <span class="string">'wpLCqMO8wpPCiQ=='</span>, <span class="string">'w54Aw5bDqsKD'</span>, <span class="string">'K23DsRErcg=='</span>, <span class="string">'eETDt1Nj'</span>, <span class="string">'w7XDhsOhwpfCrg=='</span>, <span class="string">'LBMPdFk='</span>, <span class="string">'woXDmQ3Cu8Kl'</span>, <span class="string">'eGrDrmxAdA=='</span>, <span class="string">'bcKBwpPDmz3Clw=='</span>, <span class="string">'KmzDghcL'</span>, <span class="string">'w6vDu8K7MQY='</span>, <span class="string">'wr4+w6fCph0='</span>, <span class="string">'WsKSWMO7EQ=='</span>, <span class="string">'WMKNwp7Dojg='</span>, <span class="string">'wosyw6rCnxhP'</span>, <span class="string">'w7LDhcK8FTI='</span>, <span class="string">'wqDCuVPCoFbCgcOgbm3Dkw=='</span>, <span class="string">'wq4Hw6HCoTDDlg=='</span>, <span class="string">'TgxLwqPDtg=='</span>, <span class="string">'wqXCoVfClmY='</span>, <span class="string">'wptsw7vDj8OB'</span>, <span class="string">'wqVow4bDt8O5'</span>, <span class="string">'QcOma8O2w4U='</span>, <span class="string">'D8Ohwo/DvjRK'</span>, <span class="string">'wpZLX8Kyw5o='</span>, <span class="string">'NcKjDgPDjw=='</span>, <span class="string">'E8K1RcO1w4U1'</span>, <span class="string">'XA8YGy3DrMKqw49/w5A='</span>, <span class="string">'woctw4bChj0='</span>, <span class="string">'CMKXw6jDoA7Dmi1Ow4xUGMK4YMKwacO4SMKKc3ldwrQDw4RG'</span>];</span></span><br><span class="line"><span class="actionscript">    (<span class="function"><span class="keyword">function</span><span class="params">(_0x5bc68b, _0x259158)</span> </span>&#123; <span class="keyword">var</span> _0x102152 = <span class="function"><span class="keyword">function</span><span class="params">(_0x1797a6)</span> </span>&#123; <span class="keyword">while</span> (--_0x1797a6) &#123; _0x5bc68b[<span class="string">'push'</span>](_0x5bc68b[<span class="string">'shift'</span>]()); &#125; &#125;;</span></span><br><span class="line">        _0x102152(++_0x259158); &#125;(__0x3fb5e, 0x123));</span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> _0x56ae = <span class="function"><span class="keyword">function</span><span class="params">(_0xca96c7, _0x241ea9)</span> </span>&#123; _0xca96c7 = _0xca96c7 - <span class="number">0x0</span>; <span class="keyword">var</span> _0x57cca1 = __0x3fb5e[_0xca96c7]; <span class="keyword">if</span> (_0x56ae[<span class="string">'initialized'</span>] === <span class="literal">undefined</span>) &#123;</span></span><br><span class="line"><span class="javascript">            (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">var</span> _0x228394 = <span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">'undefined'</span> ? <span class="built_in">window</span> : <span class="keyword">typeof</span> process === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">require</span> === <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> global === <span class="string">'object'</span> ? global : <span class="keyword">this</span>; <span class="keyword">var</span> _0x356c10 = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='</span>;</span></span><br><span class="line"><span class="javascript">                _0x228394[<span class="string">'atob'</span>] || (_0x228394[<span class="string">'atob'</span>] = <span class="function"><span class="keyword">function</span>(<span class="params">_0x16460d</span>) </span>&#123; <span class="keyword">var</span> _0x4e207e = <span class="built_in">String</span>(_0x16460d)[<span class="string">'replace'</span>](<span class="regexp">/=+$/</span>, <span class="string">''</span>); <span class="keyword">for</span> (<span class="keyword">var</span> _0x15f638 = <span class="number">0x0</span>, _0x2abf93, _0x3df9f8, _0x479e2a = <span class="number">0x0</span>, _0x411a0f = <span class="string">''</span>; _0x3df9f8 = _0x4e207e[<span class="string">'charAt'</span>](_0x479e2a++); ~_0x3df9f8 &amp;&amp; (_0x2abf93 = _0x15f638 % <span class="number">0x4</span> ? _0x2abf93 * <span class="number">0x40</span> + _0x3df9f8 : _0x3df9f8, _0x15f638++ % <span class="number">0x4</span>) ? _0x411a0f += <span class="built_in">String</span>[<span class="string">'fromCharCode'</span>](<span class="number">0xff</span> &amp; _0x2abf93 &gt;&gt; (<span class="number">-0x2</span> * _0x15f638 &amp; <span class="number">0x6</span>)) : <span class="number">0x0</span>) &#123; _0x3df9f8 = _0x356c10[<span class="string">'indexOf'</span>](_0x3df9f8); &#125; <span class="keyword">return</span> _0x411a0f; &#125;); &#125;()); <span class="keyword">var</span> _0x172d34 = <span class="function"><span class="keyword">function</span>(<span class="params">_0xa28d48, _0x346449</span>) </span>&#123; <span class="keyword">var</span> _0x55c23f = [],</span></span><br><span class="line">                    _0x3809ab = 0x0,</span><br><span class="line"><span class="actionscript">                    _0x5298ee, _0x3c825f = <span class="string">''</span>,</span></span><br><span class="line"><span class="actionscript">                    _0x8b8e9a = <span class="string">''</span>;</span></span><br><span class="line"><span class="javascript">                _0xa28d48 = atob(_0xa28d48); <span class="keyword">for</span> (<span class="keyword">var</span> _0xee1bef = <span class="number">0x0</span>, _0x3023b5 = _0xa28d48[<span class="string">'length'</span>]; _0xee1bef &lt; _0x3023b5; _0xee1bef++) &#123; _0x8b8e9a += <span class="string">'%'</span> + (<span class="string">'00'</span> + _0xa28d48[<span class="string">'charCodeAt'</span>](_0xee1bef)[<span class="string">'toString'</span>](<span class="number">0x10</span>))[<span class="string">'slice'</span>](<span class="number">-0x2</span>); &#125; _0xa28d48 = <span class="built_in">decodeURIComponent</span>(_0x8b8e9a); <span class="keyword">for</span> (<span class="keyword">var</span> _0x308939 = <span class="number">0x0</span>; _0x308939 &lt; <span class="number">0x100</span>; _0x308939++) &#123; _0x55c23f[_0x308939] = _0x308939; &#125; <span class="keyword">for</span> (_0x308939 = <span class="number">0x0</span>; _0x308939 &lt; <span class="number">0x100</span>; _0x308939++) &#123; _0x3809ab = (_0x3809ab + _0x55c23f[_0x308939] + _0x346449[<span class="string">'charCodeAt'</span>](_0x308939 % _0x346449[<span class="string">'length'</span>])) % <span class="number">0x100</span>;</span></span><br><span class="line">                    _0x5298ee = _0x55c23f[_0x308939];</span><br><span class="line">                    _0x55c23f[_0x308939] = _0x55c23f[_0x3809ab];</span><br><span class="line">                    _0x55c23f[_0x3809ab] = _0x5298ee; &#125; _0x308939 = 0x0;</span><br><span class="line"><span class="actionscript">                _0x3809ab = <span class="number">0x0</span>; <span class="keyword">for</span> (<span class="keyword">var</span> _0x66c563 = <span class="number">0x0</span>; _0x66c563 &lt; _0xa28d48[<span class="string">'length'</span>]; _0x66c563++) &#123; _0x308939 = (_0x308939 + <span class="number">0x1</span>) % <span class="number">0x100</span>;</span></span><br><span class="line">                    _0x3809ab = (_0x3809ab + _0x55c23f[_0x308939]) % 0x100;</span><br><span class="line">                    _0x5298ee = _0x55c23f[_0x308939];</span><br><span class="line">                    _0x55c23f[_0x308939] = _0x55c23f[_0x3809ab];</span><br><span class="line">                    _0x55c23f[_0x3809ab] = _0x5298ee;</span><br><span class="line"><span class="javascript">                    _0x3c825f += <span class="built_in">String</span>[<span class="string">'fromCharCode'</span>](_0xa28d48[<span class="string">'charCodeAt'</span>](_0x66c563) ^ _0x55c23f[(_0x55c23f[_0x308939] + _0x55c23f[_0x3809ab]) % <span class="number">0x100</span>]); &#125; <span class="keyword">return</span> _0x3c825f; &#125;;</span></span><br><span class="line"><span class="actionscript">            _0x56ae[<span class="string">'rc4'</span>] = _0x172d34;</span></span><br><span class="line"><span class="actionscript">            _0x56ae[<span class="string">'data'</span>] = &#123;&#125;;</span></span><br><span class="line"><span class="actionscript">            _0x56ae[<span class="string">'initialized'</span>] = !![]; &#125; <span class="keyword">var</span> _0x190c72 = _0x56ae[<span class="string">'data'</span>][_0xca96c7]; <span class="keyword">if</span> (_0x190c72 === <span class="literal">undefined</span>) &#123; <span class="keyword">if</span> (_0x56ae[<span class="string">'once'</span>] === <span class="literal">undefined</span>) &#123; _0x56ae[<span class="string">'once'</span>] = !![]; &#125; _0x57cca1 = _0x56ae[<span class="string">'rc4'</span>](_0x57cca1, _0x241ea9);</span></span><br><span class="line"><span class="actionscript">            _0x56ae[<span class="string">'data'</span>][_0xca96c7] = _0x57cca1; &#125; <span class="keyword">else</span> &#123; _0x57cca1 = _0x190c72; &#125; <span class="keyword">return</span> _0x57cca1; &#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">_0x412a72</span>(<span class="params">_0x2a28c0</span>) </span>&#123; <span class="keyword">var</span> _0x4257c9 = &#123; <span class="string">'bwGZX'</span>: _0x56ae(<span class="string">'0x0'</span>, <span class="string">'jo5I'</span>), <span class="string">'mGirf'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x2eb028</span>(<span class="params">_0x5ab0bc, _0x5505f4</span>) </span>&#123; <span class="keyword">return</span> _0x5ab0bc &lt; _0x5505f4; &#125;, <span class="string">'hOkXt'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x16449b</span>(<span class="params">_0x22286c, _0x41c8cd</span>) </span>&#123; <span class="keyword">return</span> _0x22286c &amp; _0x41c8cd; &#125;, <span class="string">'RJeYY'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x24beb6</span>(<span class="params">_0x59303b, _0x576d3b</span>) </span>&#123; <span class="keyword">return</span> _0x59303b == _0x576d3b; &#125;, <span class="string">'cFxMb'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x45b03c</span>(<span class="params">_0xadce3d, _0x5416a9</span>) </span>&#123; <span class="keyword">return</span> _0xadce3d &gt;&gt; _0x5416a9; &#125;, <span class="string">'spzgJ'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x3c313d</span>(<span class="params">_0x19fd11, _0xcacabb</span>) </span>&#123; <span class="keyword">return</span> _0x19fd11 &lt;&lt; _0xcacabb; &#125;, <span class="string">'VdlKD'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x2427d5</span>(<span class="params">_0x23b25b, _0x23b39e</span>) </span>&#123; <span class="keyword">return</span> _0x23b25b &amp; _0x23b39e; &#125;, <span class="string">'VDeWo'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1ef1b0</span>(<span class="params">_0x476993, _0x40dd2a</span>) </span>&#123; <span class="keyword">return</span> _0x476993 == _0x40dd2a; &#125;, <span class="string">'gHLRp'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x16afb3</span>(<span class="params">_0x4bdebb, _0x1065a7</span>) </span>&#123; <span class="keyword">return</span> _0x4bdebb &gt;&gt; _0x1065a7; &#125;, <span class="string">'biRta'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x301047</span>(<span class="params">_0x2ada60, _0x1c4232</span>) </span>&#123; <span class="keyword">return</span> _0x2ada60 | _0x1c4232; &#125;, <span class="string">'oKMpY'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1d0b02</span>(<span class="params">_0x547e37, _0x500868</span>) </span>&#123; <span class="keyword">return</span> _0x547e37 &lt;&lt; _0x500868; &#125;, <span class="string">'HlUXJ'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x21902c</span>(<span class="params">_0x16ae1a, _0x466bbf</span>) </span>&#123; <span class="keyword">return</span> _0x16ae1a &gt;&gt; _0x466bbf; &#125;, <span class="string">'vuJTm'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x2fea95</span>(<span class="params">_0x34f7b5, _0x59e46f</span>) </span>&#123; <span class="keyword">return</span> _0x34f7b5 &lt;&lt; _0x59e46f; &#125;, <span class="string">'lHuwG'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1339d0</span>(<span class="params">_0x3c775a, _0x3450ae</span>) </span>&#123; <span class="keyword">return</span> _0x3c775a &gt;&gt; _0x3450ae; &#125;, <span class="string">'fpeDs'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x52b661</span>(<span class="params">_0x318fc3, _0x59aa7b</span>) </span>&#123; <span class="keyword">return</span> _0x318fc3 &amp; _0x59aa7b; &#125;, <span class="string">'HqwlU'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x2144ca</span>(<span class="params">_0x4799d4, _0x25b745</span>) </span>&#123; <span class="keyword">return</span> _0x4799d4 | _0x25b745; &#125;, <span class="string">'nPBKx'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x42b833</span>(<span class="params">_0xe339b1, _0x5c500c</span>) </span>&#123; <span class="keyword">return</span> _0xe339b1 &amp; _0x5c500c; &#125;, <span class="string">'ZRhVT'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0xc9529d</span>(<span class="params">_0x5ed560, _0x4383da</span>) </span>&#123; <span class="keyword">return</span> _0x5ed560 &amp; _0x4383da; &#125;, <span class="string">'bdZKt'</span>: _0x56ae(<span class="string">'0x1'</span>, <span class="string">'5jBa'</span>) &#125;; <span class="keyword">var</span> _0x6c47cd = _0x4257c9[_0x56ae(<span class="string">'0x2'</span>, <span class="string">'LFWf'</span>)][_0x56ae(<span class="string">'0x3'</span>, <span class="string">'Q@8l'</span>)](<span class="string">'|'</span>),</span></span><br><span class="line"><span class="actionscript">            _0x3a5836 = <span class="number">0x0</span>; <span class="keyword">while</span> (!![]) &#123; <span class="keyword">switch</span> (_0x6c47cd[_0x3a5836++]) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'0'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x27d1f5 = <span class="string">''</span>; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'1'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">var</span> _0x27d1f5, _0x4262d0, _0xc876d4; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'2'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x4262d0 = <span class="number">0x0</span>; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'3'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">while</span> (_0x4257c9[_0x56ae(<span class="string">'0x4'</span>, <span class="string">'*h#g'</span>)](_0x4262d0, _0xc876d4)) &#123; _0x5526a7 = _0x4257c9[_0x56ae(<span class="string">'0x5'</span>, <span class="string">'a6w('</span>)](_0x2a28c0[<span class="string">'charCodeAt'</span>](_0x4262d0++), <span class="number">0xff</span>); <span class="keyword">if</span> (_0x4257c9[<span class="string">'RJeYY'</span>](_0x4262d0, _0xc876d4)) &#123; _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0x6'</span>, <span class="string">')Z%%'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x7'</span>, <span class="string">'iAGA'</span>)](_0x5526a7, <span class="number">0x2</span>));</span></span><br><span class="line"><span class="actionscript">                            _0x27d1f5 += _0x2097d8[<span class="string">'charAt'</span>](_0x4257c9[_0x56ae(<span class="string">'0x8'</span>, <span class="string">'IM$w'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x9'</span>, <span class="string">'Dk(l'</span>)](_0x5526a7, <span class="number">0x3</span>), <span class="number">0x4</span>));</span></span><br><span class="line"><span class="actionscript">                            _0x27d1f5 += <span class="string">'=='</span>; <span class="keyword">break</span>; &#125; _0x138cf5 = _0x2a28c0[<span class="string">'charCodeAt'</span>](_0x4262d0++); <span class="keyword">if</span> (_0x4257c9[_0x56ae(<span class="string">'0xa'</span>, <span class="string">'HLR('</span>)](_0x4262d0, _0xc876d4)) &#123; _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0xb'</span>, <span class="string">'iAGA'</span>)](_0x4257c9[<span class="string">'gHLRp'</span>](_0x5526a7, <span class="number">0x2</span>));</span></span><br><span class="line"><span class="actionscript">                            _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0xc'</span>, <span class="string">'j%QO'</span>)](_0x4257c9[_0x56ae(<span class="string">'0xd'</span>, <span class="string">')Z%%'</span>)](_0x4257c9[_0x56ae(<span class="string">'0xe'</span>, <span class="string">'L6ge'</span>)](_0x4257c9[_0x56ae(<span class="string">'0xf'</span>, <span class="string">'02EH'</span>)](_0x5526a7, <span class="number">0x3</span>), <span class="number">0x4</span>), _0x4257c9[_0x56ae(<span class="string">'0x10'</span>, <span class="string">'5jBa'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x11'</span>, <span class="string">'j%QO'</span>)](_0x138cf5, <span class="number">0xf0</span>), <span class="number">0x4</span>)));</span></span><br><span class="line"><span class="actionscript">                            _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0x12'</span>, <span class="string">'02EH'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x13'</span>, <span class="string">'L6ge'</span>)](_0x4257c9[<span class="string">'VdlKD'</span>](_0x138cf5, <span class="number">0xf</span>), <span class="number">0x2</span>));</span></span><br><span class="line"><span class="actionscript">                            _0x27d1f5 += <span class="string">'='</span>; <span class="keyword">break</span>; &#125; _0x4093e6 = _0x2a28c0[_0x56ae(<span class="string">'0x14'</span>, <span class="string">'%FZJ'</span>)](_0x4262d0++);</span></span><br><span class="line"><span class="actionscript">                        _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0x15'</span>, <span class="string">'d2rH'</span>)](_0x4257c9[<span class="string">'lHuwG'</span>](_0x5526a7, <span class="number">0x2</span>));</span></span><br><span class="line"><span class="actionscript">                        _0x27d1f5 += _0x2097d8[<span class="string">'charAt'</span>](_0x4257c9[_0x56ae(<span class="string">'0x16'</span>, <span class="string">'Zp5!'</span>)](_0x4257c9[<span class="string">'VdlKD'</span>](_0x5526a7, <span class="number">0x3</span>) &lt;&lt; <span class="number">0x4</span>, _0x4257c9[_0x56ae(<span class="string">'0x17'</span>, <span class="string">'%FZJ'</span>)](_0x138cf5, <span class="number">0xf0</span>) &gt;&gt; <span class="number">0x4</span>));</span></span><br><span class="line"><span class="actionscript">                        _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0x12'</span>, <span class="string">'02EH'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x18'</span>, <span class="string">'*FHt'</span>)](_0x4257c9[_0x56ae(<span class="string">'0x19'</span>, <span class="string">'*FHt'</span>)](_0x4257c9[<span class="string">'nPBKx'</span>](_0x138cf5, <span class="number">0xf</span>), <span class="number">0x2</span>), _0x4257c9[_0x56ae(<span class="string">'0x1a'</span>, <span class="string">'scqQ'</span>)](_0x4093e6, <span class="number">0xc0</span>) &gt;&gt; <span class="number">0x6</span>));</span></span><br><span class="line"><span class="actionscript">                        _0x27d1f5 += _0x2097d8[_0x56ae(<span class="string">'0x1b'</span>, <span class="string">'eygr'</span>)](_0x4257c9[<span class="string">'ZRhVT'</span>](_0x4093e6, <span class="number">0x3f</span>)); &#125; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'4'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> _0x27d1f5;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'5'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0xc876d4 = _0x2a28c0[<span class="string">'length'</span>]; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'6'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">var</span> _0x5526a7, _0x138cf5, _0x4093e6; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'7'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">var</span> _0x2097d8 = _0x4257c9[_0x56ae(<span class="string">'0x1c'</span>, <span class="string">'LFWf'</span>)]; <span class="keyword">continue</span>; &#125; <span class="keyword">break</span>; &#125; &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">_0x344cd4</span>(<span class="params"></span>) </span>&#123; <span class="keyword">var</span> _0x53d9fc = &#123; <span class="string">'GjCbS'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1a0314</span>(<span class="params">_0x33da81, _0xe25eb5</span>) </span>&#123; <span class="keyword">return</span> _0x33da81 &lt; _0xe25eb5; &#125;, <span class="string">'JBFUL'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1af799</span>(<span class="params">_0x51aa2f, _0x2e4887</span>) </span>&#123; <span class="keyword">return</span> _0x51aa2f + _0x2e4887; &#125; &#125;; <span class="keyword">var</span> _0x3c9135 = <span class="number">0x0</span>; <span class="keyword">var</span> _0x43beea = <span class="number">0x0</span>; <span class="keyword">for</span> (_0x43beea = <span class="number">0x0</span>; _0x53d9fc[_0x56ae(<span class="string">'0x1d'</span>, <span class="string">'uGC9'</span>)](_0x43beea, wzwsquestion[_0x56ae(<span class="string">'0x1e'</span>, <span class="string">'V2r4'</span>)]); _0x43beea++) &#123; _0x3c9135 += wzwsquestion[_0x56ae(<span class="string">'0x1f'</span>, <span class="string">'!2cw'</span>)](_0x43beea); &#125; _0x3c9135 *= wzwsfactor;</span></span><br><span class="line"><span class="actionscript">        _0x3c9135 += <span class="number">0x1b207</span>; <span class="keyword">return</span> _0x53d9fc[_0x56ae(<span class="string">'0x20'</span>, <span class="string">'d2rH'</span>)](_0x56ae(<span class="string">'0x21'</span>, <span class="string">'Rau%'</span>), _0x3c9135); &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">_0x2ff265</span>(<span class="params">_0x26b826, _0xea8bd1</span>) </span>&#123; <span class="keyword">var</span> _0x253f74 = &#123; <span class="string">'ogjLK'</span>: _0x56ae(<span class="string">'0x22'</span>, <span class="string">'Qy14'</span>), <span class="string">'izgsL'</span>: <span class="string">'post'</span>, <span class="string">'eMCME'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x3b581c</span>(<span class="params">_0xd2391, _0x1a9ef1</span>) </span>&#123; <span class="keyword">return</span> _0xd2391 != _0x1a9ef1; &#125;, <span class="string">'aCWaI'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x5c65fc</span>(<span class="params">_0x1402c7, _0x41e446</span>) </span>&#123; <span class="keyword">return</span> _0x1402c7 &lt; _0x41e446; &#125;, <span class="string">'OTFrl'</span>: _0x56ae(<span class="string">'0x23'</span>, <span class="string">'Rau%'</span>) &#125;; <span class="keyword">var</span> _0x370b5e = _0x253f74[_0x56ae(<span class="string">'0x24'</span>, <span class="string">'!2cw'</span>)][_0x56ae(<span class="string">'0x25'</span>, <span class="string">'i[Ts'</span>)](<span class="string">'|'</span>),</span></span><br><span class="line"><span class="actionscript">            _0x1ba457 = <span class="number">0x0</span>; <span class="keyword">while</span> (!![]) &#123; <span class="keyword">switch</span> (_0x370b5e[_0x1ba457++]) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'0'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x15a9ed[<span class="string">'method'</span>] = _0x253f74[_0x56ae(<span class="string">'0x26'</span>, <span class="string">'uGC9'</span>)]; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'1'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> _0x15a9ed;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'2'</span>:</span></span><br><span class="line"><span class="javascript">                    <span class="keyword">var</span> _0x15a9ed = <span class="built_in">document</span>[_0x56ae(<span class="string">'0x27'</span>, <span class="string">'Q@8l'</span>)](_0x56ae(<span class="string">'0x28'</span>, <span class="string">')Z%%'</span>)); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'3'</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">if</span> (_0x253f74[_0x56ae(<span class="string">'0x29'</span>, <span class="string">'YXCs'</span>)](_0xea8bd1[<span class="string">'search'</span>](<span class="string">'='</span>), <span class="number">-0x1</span>)) &#123; <span class="keyword">var</span> _0x573df6 = _0xea8bd1[_0x56ae(<span class="string">'0x2a'</span>, <span class="string">'LFWf'</span>)](<span class="string">'&amp;'</span>); <span class="keyword">for</span> (<span class="keyword">var</span> _0x426cb4 = <span class="number">0x0</span>; _0x253f74[_0x56ae(<span class="string">'0x2b'</span>, <span class="string">'57vf'</span>)](_0x426cb4, _0x573df6[_0x56ae(<span class="string">'0x2c'</span>, <span class="string">'*FHt'</span>)]); _0x426cb4++) &#123; <span class="keyword">var</span> _0x3ddbc7 = _0x56ae(<span class="string">'0x2d'</span>, <span class="string">'V]Be'</span>)[<span class="string">'split'</span>](<span class="string">'|'</span>),</span></span><br><span class="line"><span class="actionscript">                                _0x1fdb10 = <span class="number">0x0</span>; <span class="keyword">while</span> (!![]) &#123; <span class="keyword">switch</span> (_0x3ddbc7[_0x1fdb10++]) &#123;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'0'</span>:</span></span><br><span class="line"><span class="actionscript">                                        _0x2a293f[_0x56ae(<span class="string">'0x2e'</span>, <span class="string">'iAGA'</span>)] = _0x422f0a[<span class="number">0x0</span>]; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'1'</span>:</span></span><br><span class="line"><span class="javascript">                                        <span class="keyword">var</span> _0x2a293f = <span class="built_in">document</span>[<span class="string">'createElement'</span>](_0x253f74[_0x56ae(<span class="string">'0x2f'</span>, <span class="string">'a6w('</span>)]); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'2'</span>:</span></span><br><span class="line"><span class="actionscript">                                        <span class="keyword">var</span> _0x422f0a = _0x8ad1c0[<span class="string">'split'</span>](<span class="string">'='</span>); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'3'</span>:</span></span><br><span class="line"><span class="actionscript">                                        <span class="keyword">var</span> _0x8ad1c0 = _0x573df6[_0x426cb4]; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'4'</span>:</span></span><br><span class="line"><span class="actionscript">                                        _0x15a9ed[_0x56ae(<span class="string">'0x30'</span>, <span class="string">'WuNj'</span>)](_0x2a293f); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                                    <span class="keyword">case</span> <span class="string">'5'</span>:</span></span><br><span class="line"><span class="actionscript">                                        _0x2a293f[<span class="string">'value'</span>] = _0x422f0a[<span class="number">0x1</span>]; <span class="keyword">continue</span>; &#125; <span class="keyword">break</span>; &#125; &#125; &#125; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'4'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x15a9ed[_0x56ae(<span class="string">'0x31'</span>, <span class="string">'!2cw'</span>)](); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'5'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x15a9ed[_0x56ae(<span class="string">'0x32'</span>, <span class="string">'02EH'</span>)] = _0x26b826; <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'6'</span>:</span></span><br><span class="line"><span class="actionscript">                    _0x15a9ed[<span class="string">'style'</span>][<span class="string">'display'</span>] = _0x56ae(<span class="string">'0x33'</span>, <span class="string">'%FZJ'</span>); <span class="keyword">continue</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">'7'</span>:</span></span><br><span class="line"><span class="javascript">                    <span class="built_in">document</span>[_0x56ae(<span class="string">'0x34'</span>, <span class="string">'HLR('</span>)][<span class="string">'appendChild'</span>](_0x15a9ed); <span class="keyword">continue</span>; &#125; <span class="keyword">break</span>; &#125; &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">_0x33f22a</span>(<span class="params"></span>) </span>&#123; <span class="keyword">var</span> _0x532424 = &#123; <span class="string">'hwQpj'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x3b4af9</span>(<span class="params">_0x2ff2ab</span>) </span>&#123; <span class="keyword">return</span> _0x2ff2ab(); &#125;, <span class="string">'lYfvS'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x242f23</span>(<span class="params">_0x57f673, _0x33b4b3</span>) </span>&#123; <span class="keyword">return</span> _0x57f673(_0x33b4b3); &#125;, <span class="string">'VvOsr'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x33a26c</span>(<span class="params">_0xb8a476, _0x580dd6</span>) </span>&#123; <span class="keyword">return</span> _0xb8a476 + _0x580dd6; &#125;, <span class="string">'vOmWg'</span>: _0x56ae(<span class="string">'0x35'</span>, <span class="string">'YXCs'</span>), <span class="string">'LaaBO'</span>: <span class="function"><span class="keyword">function</span> <span class="title">_0x1b637c</span>(<span class="params">_0x5c57e1, _0x41b90a</span>) </span>&#123; <span class="keyword">return</span> _0x5c57e1 == _0x41b90a; &#125;, <span class="string">'eneJI'</span>: <span class="string">'post'</span> &#125;; <span class="keyword">var</span> _0xb14971 = _0x532424[_0x56ae(<span class="string">'0x36'</span>, <span class="string">'jo5I'</span>)](_0x344cd4); <span class="keyword">var</span> _0x10ace8 = _0x532424[_0x56ae(<span class="string">'0x37'</span>, <span class="string">'a6w('</span>)](_0x412a72, _0xb14971[_0x56ae(<span class="string">'0x38'</span>, <span class="string">'*8t['</span>)]()); <span class="keyword">var</span> _0x35ace3 = _0x532424[_0x56ae(<span class="string">'0x39'</span>, <span class="string">')9A&amp;'</span>)](dynamicurl, _0x532424[_0x56ae(<span class="string">'0x3a'</span>, <span class="string">'N&amp;Yh'</span>)]) + _0x10ace8; <span class="keyword">if</span> (_0x532424[<span class="string">'LaaBO'</span>](wzwsmethod, _0x532424[_0x56ae(<span class="string">'0x3b'</span>, <span class="string">'Q@8l'</span>)])) &#123; _0x2ff265(_0x35ace3, wzwsparams); &#125; <span class="keyword">else</span> &#123; <span class="built_in">window</span>[_0x56ae(<span class="string">'0x3c'</span>, <span class="string">')9A&amp;'</span>)] = _0x35ace3; &#125; &#125; _0x33f22a();;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (!(<span class="keyword">typeof</span> encode_version !== _0x56ae(<span class="string">'0x3d'</span>, <span class="string">'QE(m'</span>) &amp;&amp; encode_version === _0x56ae(<span class="string">'0x3e'</span>, <span class="string">'LFWf'</span>))) &#123; <span class="built_in">window</span>[_0x56ae(<span class="string">'0x3f'</span>, <span class="string">'Q@8l'</span>)](_0x56ae(<span class="string">'0x40'</span>, <span class="string">'YtnB'</span>)); &#125;;</span></span><br><span class="line"><span class="actionscript">    encode_version = <span class="string">'sojson.v5'</span>;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>看到这一串混淆过的js代码</p>
+<p>心中只有两个字</p>
+<p><strong>呵呵</strong></p>
+<p>嗨，呵呵完了就继续吧</p>
+<p>那就先用fiddler抓下包看看正常访问的过程吧</p>
+<p>先开一个新的无痕浏览</p>
+<p>然后访问目标</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/fiddler.png" alt="fiddler"></p>
+<p>这里可以看到目标被请求了两次，而且第二次才是我们要的页面</p>
+<p>中间还更换了一次cookie</p>
+<p>其中第一次的请求返回的那串混淆过的js应该是会重定向到下一个页面更换cookie</p>
+<p>然后才再次访问目标页面，得到正确的数据</p>
+<p>那还是只有分析第一次返回的js</p>
+<p>找到重定向的页面网址</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/fiddler2.png" alt="fiddler2"></p>
+<hr>
+<h2 id="混淆处理"><a href="#混淆处理" class="headerlink" title="混淆处理"></a>混淆处理</h2><p>第一段<strong>eval</strong>好像还能看，看看输出的是什么</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/eval%E5%87%BD%E6%95%B0.png" alt="eval函数"></p>
+<p>输出了几个var,好像有点象url </p>
+<p>拿来对比一下</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/url%E5%AF%B9%E6%AF%94.png" alt="url对比"></p>
+<p>确实是一致的</p>
+<p>然后还缺一个<code>wzwschallenge</code>的参数</p>
+<p>这个时候看下这个混淆过的js</p>
+<p>可以看到<code>encode_version = &#39;sojson.v5&#39;;</code>这一段</p>
+<p>说明是采用的v5版本的sojson加密的</p>
+<p>这里有好心的大佬给了一个反混淆的网站：</p>
+<p><a href="http://tool.yuanrenxue.com/decode_obfuscator" target="_blank" rel="noopener">猿人学</a></p>
+<p>之后有时间了也可以自己试试</p>
+<p><a href="http://bbs.nightteam.cn/thread-417.htm" target="_blank" rel="noopener">教程</a></p>
+<p>反混淆之后的js：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> encode_version = <span class="string">"sojson.v5"</span>,</span><br><span class="line">    jezoh = <span class="string">"__0x3fb5e"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_0x412a72</span>(<span class="params">_0x2a28c0</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _0x2097d8 = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _0x27d1f5, _0x4262d0, _0xc876d4;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _0x5526a7, _0x138cf5, _0x4093e6;</span><br><span class="line"></span><br><span class="line">  _0xc876d4 = _0x2a28c0[<span class="string">"length"</span>];</span><br><span class="line">  _0x4262d0 = <span class="number">0</span>;</span><br><span class="line">  _0x27d1f5 = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (_0x4262d0 &lt; _0xc876d4) &#123;</span><br><span class="line">    _0x5526a7 = _0x2a28c0[<span class="string">"charCodeAt"</span>](_0x4262d0++) &amp; <span class="number">255</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_0x4262d0 == _0xc876d4) &#123;</span><br><span class="line">      _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>](_0x5526a7 &gt;&gt; <span class="number">2</span>);</span><br><span class="line">      _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>]((_0x5526a7 &amp; <span class="number">3</span>) &lt;&lt; <span class="number">4</span>);</span><br><span class="line">      _0x27d1f5 += <span class="string">"=="</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _0x138cf5 = _0x2a28c0[<span class="string">"charCodeAt"</span>](_0x4262d0++);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_0x4262d0 == _0xc876d4) &#123;</span><br><span class="line">      _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>](_0x5526a7 &gt;&gt; <span class="number">2</span>);</span><br><span class="line">      _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>]((_0x5526a7 &amp; <span class="number">3</span>) &lt;&lt; <span class="number">4</span> | (_0x138cf5 &amp; <span class="number">240</span>) &gt;&gt; <span class="number">4</span>);</span><br><span class="line">      _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>]((_0x138cf5 &amp; <span class="number">15</span>) &lt;&lt; <span class="number">2</span>);</span><br><span class="line">      _0x27d1f5 += <span class="string">"="</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _0x4093e6 = _0x2a28c0[<span class="string">"charCodeAt"</span>](_0x4262d0++);</span><br><span class="line">    _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>](_0x5526a7 &gt;&gt; <span class="number">2</span>);</span><br><span class="line">    _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>]((_0x5526a7 &amp; <span class="number">3</span>) &lt;&lt; <span class="number">4</span> | (_0x138cf5 &amp; <span class="number">240</span>) &gt;&gt; <span class="number">4</span>);</span><br><span class="line">    _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>]((_0x138cf5 &amp; <span class="number">15</span>) &lt;&lt; <span class="number">2</span> | (_0x4093e6 &amp; <span class="number">192</span>) &gt;&gt; <span class="number">6</span>);</span><br><span class="line">    _0x27d1f5 += _0x2097d8[<span class="string">"charAt"</span>](_0x4093e6 &amp; <span class="number">63</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> _0x27d1f5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_0x344cd4</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _0x3c9135 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> _0x43beea = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (_0x43beea = <span class="number">0</span>; _0x43beea &lt; wzwsquestion[<span class="string">"length"</span>]; _0x43beea++) &#123;</span><br><span class="line">    _0x3c9135 += wzwsquestion[<span class="string">"charCodeAt"</span>](_0x43beea);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  _0x3c9135 *= wzwsfactor;</span><br><span class="line">  _0x3c9135 += <span class="number">111111</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"WZWS_CONFIRM_PREFIX_LABEL"</span> + _0x3c9135;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_0x2ff265</span>(<span class="params">_0x26b826, _0xea8bd1</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _0x15a9ed = <span class="built_in">document</span>[<span class="string">"createElement"</span>](<span class="string">"form"</span>);</span><br><span class="line"></span><br><span class="line">  _0x15a9ed[<span class="string">"action"</span>] = _0x26b826;</span><br><span class="line">  _0x15a9ed[<span class="string">"method"</span>] = <span class="string">"post"</span>;</span><br><span class="line">  _0x15a9ed[<span class="string">"style"</span>][<span class="string">"display"</span>] = <span class="string">"none"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (_0xea8bd1[<span class="string">"search"</span>](<span class="string">"="</span>) != <span class="number">-1</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x573df6 = _0xea8bd1[<span class="string">"split"</span>](<span class="string">"&amp;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> _0x426cb4 = <span class="number">0</span>; _0x426cb4 &lt; _0x573df6[<span class="string">"length"</span>]; _0x426cb4++) &#123;</span><br><span class="line">      <span class="keyword">var</span> _0x2a293f = <span class="built_in">document</span>[<span class="string">"createElement"</span>](<span class="string">"textarea"</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> _0x8ad1c0 = _0x573df6[_0x426cb4];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> _0x422f0a = _0x8ad1c0[<span class="string">"split"</span>](<span class="string">"="</span>);</span><br><span class="line"></span><br><span class="line">      _0x2a293f[<span class="string">"name"</span>] = _0x422f0a[<span class="number">0</span>];</span><br><span class="line">      _0x2a293f[<span class="string">"value"</span>] = _0x422f0a[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">      _0x15a9ed[<span class="string">"appendChild"</span>](_0x2a293f);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">document</span>[<span class="string">"body"</span>][<span class="string">"appendChild"</span>](_0x15a9ed);</span><br><span class="line"></span><br><span class="line">  _0x15a9ed[<span class="string">"submit"</span>]();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> _0x15a9ed;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_0x33f22a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _0xb14971 = _0x344cd4();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _0x10ace8 = _0x412a72(_0xb14971[<span class="string">"toString"</span>]());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _0x35ace3 = dynamicurl + <span class="string">"?wzwschallenge="</span> + _0x10ace8;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (wzwsmethod == <span class="string">"post"</span>) &#123;</span><br><span class="line">    _0x2ff265(_0x35ace3, wzwsparams);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">window</span>[<span class="string">"location"</span>] = _0x35ace3;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_0x33f22a();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!(<span class="keyword">typeof</span> encode_version !== <span class="string">"undefined"</span> &amp;&amp; encode_version === <span class="string">"sojson.v5"</span>)) &#123;</span><br><span class="line">  <span class="built_in">window</span>[<span class="string">"alert"</span>](<span class="string">"sojson.v5"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">encode_version = <span class="string">"sojson.v5"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>终于能看了是吧</p>
+<p>到这里js代码的逻辑已经比较清晰了</p>
+<p>可以自己用python/js代码来复现</p>
+<p>不过我比较懒，换个方法</p>
+<p><img src="/image/js%E6%B7%B7%E6%B7%86-%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C/js%E6%B7%B7%E6%B7%86.png" alt="js混淆"></p>
+<p>验证后，这个_0x35ace3就是重定向的网页</p>
+<p>直接把后面的<code>window[&quot;location&quot;] = _0x35ace3;</code></p>
+<p>替换成 <code>return _0x35ace3</code>然后用execjs执行就行了</p>
+<hr>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>只放了生成重定向网址这部分</p>
+<p>其他的好像就没啥了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">"http://www.pbc.gov.cn/rmyh/105208/index.html"</span></span><br><span class="line">response = requests.get(url).content.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">html = etree.HTML(response)</span><br><span class="line">js_code=html.xpath(<span class="string">'//script/text()'</span>)[<span class="number">0</span>]</span><br><span class="line">js_code = re.sub(<span class="string">'&#123;window.*?ace3;&#125;'</span>, <span class="string">'&#123;return _0x35ace3;&#125;'</span>, js_code)</span><br><span class="line">ctx = execjs.compile(js_code)</span><br><span class="line">redirect_url = ctx.call(<span class="string">'_0x33f22a'</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>❀完结撒花❀</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/%E9%80%86%E5%90%91/" rel="tag"># 逆向</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/25/%E8%BD%AF%E7%A7%91%E3%80%81%E9%80%86%E5%90%91/" rel="next" title="软科、逆向">
+                  <i class="fa fa-chevron-left"></i> 软科、逆向
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标分析"><span class="nav-number">1.</span> <span class="nav-text">目标分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆处理"><span class="nav-number">2.</span> <span class="nav-text">混淆处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/click.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript"
+  color="220,220,220" opacity='0.7' zIndex="-2" count="200" src=" //cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+</body>
+</html>
+
+
+
