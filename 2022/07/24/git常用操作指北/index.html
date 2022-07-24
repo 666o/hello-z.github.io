@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="GIT 官方文档 PDF版命令手册 git简明教程 菜鸟教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git常用操作指北">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2022&#x2F;07&#x2F;24&#x2F;git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="GIT 官方文档 PDF版命令手册 git简明教程 菜鸟教程">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-07-24T15:39:10.874Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/07/24/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Git常用操作指北 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/07/24/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git常用操作指北
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-24 23:36:03 / 修改时间：23:39:10" itemprop="dateCreated datePublished" datetime="2022-07-24T23:36:03+08:00">2022-07-24</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="GIT"><a href="#GIT" class="headerlink" title="GIT"></a>GIT</h1><ul>
+<li><a href="https://git-scm.com/docs" target="_blank" rel="noopener">官方文档</a></li>
+<li><a href="https://www.runoob.com/manual/github-git-cheat-sheet.pdf" target="_blank" rel="noopener">PDF版命令手册</a></li>
+<li><a href="https://www.runoob.com/manual/git-guide/" target="_blank" rel="noopener">git简明教程</a></li>
+<li><a href="https://www.runoob.com/git/git-tutorial.html" target="_blank" rel="noopener">菜鸟教程</a></li>
+</ul>
+<a id="more"></a>
+
+<h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h2><p>参见<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">官方下载</a></p>
+<h2 id="2-本地基本操作"><a href="#2-本地基本操作" class="headerlink" title="2. 本地基本操作"></a>2. 本地基本操作</h2><h3 id="2-0-用户操作"><a href="#2-0-用户操作" class="headerlink" title="2.0 用户操作"></a>2.0 用户操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 全局用户信息</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">'yasuo'</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email yasuo@qq.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果去掉 --global 参数只对当前仓库有效。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-1-初始化"><a href="#2-1-初始化" class="headerlink" title="2.1 初始化"></a>2.1 初始化</h3><ul>
+<li><code>git init</code>：为当前目录生成.git文件</li>
+<li><code>git init filepath</code>：为文件路径生成文件且生成.git文件</li>
+<li><code>git init --bare filepath</code>：为文件路径生成文件且生成裸仓库</li>
+<li><code>git clone &lt;repo&gt; &lt;directory&gt;</code>：从现有Git仓库中拷贝项目</li>
+</ul>
+<p>关于 <strong>裸仓库</strong>：</p>
+<ul>
+<li><p><a href="https://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">什么是GIT裸库</a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/7861184/what-is-the-difference-between-git-init-and-git-init-bare" target="_blank" rel="noopener">普通库与裸库的区别</a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/7632454/how-do-you-use-git-bare-init-repository" target="_blank" rel="noopener">该如何使用一个裸库</a></p>
+</li>
+</ul>
+<p>当需要协作时，在中央服务器上使用裸仓库，管理起来会方便很多</p>
+<h3 id="2-2-status"><a href="#2-2-status" class="headerlink" title="2.2  status"></a>2.2  status</h3><p>查看当前状态：<code>git status</code></p>
+<p><code>status</code>命令用于显示工作目录和暂存区的状态。使用此命令能看到那些修改被暂存到了, 哪些没有, 哪些文件没有被Git tracked到。<code>git status</code>不显示已经<code>commit</code>到项目历史中去的信息。看项目历史的信息要使用<code>git log</code>.</p>
+<p>可以使用 <code>-s</code> 参数来获得简短的输出结果</p>
+<h3 id="2-3-add"><a href="#2-3-add" class="headerlink" title="2.3 add"></a>2.3 add</h3><p><code>git add pathspec</code></p>
+<p>该命令在工作树中找到的当前的内容以更新索引，为下一次提交准备暂存的内容。它通常会整体添加现有路径的当前内容，但是通过某些选项，它也可以用于仅添加对工作树文件所做的部分更改，或删除工作树中不存在的路径。</p>
+<p>“索引”保存着工作树内容的快照，该快照作为下一次提交的内容。因此，在对工作树进行任何更改之后，以及在运行commit命令之前，必须使用<code>add</code>命令将所有新文件或修改过的文件添加到索引中。</p>
+<p>提交前可以多次执行此命令。它仅在运行add命令时添加指定文件的内容；如果要在下一次提交中包含后续更改，则必须再次运行<code>git add</code>将新内容添加到索引中。</p>
+<h3 id="2-4-commit"><a href="#2-4-commit" class="headerlink" title="2.4 commit"></a>2.4 commit</h3><p><code>git commit -m &quot;message&quot;</code></p>
+<p>创建一个新的提交，其中包含索引的当前内容和描述更改的给定日志消息。新提交是 HEAD 的直接子节点，通常是当前分支的尖端，并且分支被更新以指向它。</p>
+<h3 id="2-5-reset"><a href="#2-5-reset" class="headerlink" title="2.5 reset"></a>2.5 reset</h3><p>git-reset - 重置当前HEAD到指定的状态</p>
+<ul>
+<li><code>git reset --hard [HEAD]</code> 将工作区和暂存区的文件回退到指定版本，丢弃工作区和暂存区的所有改动。</li>
+<li><code>git reset --soft [HEAD]</code> 将现在到指定版本的改动回退到暂存区，常见为 <code>HEAD^</code> 意为回退到上个版本，其中改动转到暂存区，主要用于修改上次提交。不会将丢弃现有工作区与暂存区的改动。</li>
+<li><code>git reset --mixed [HEAD]</code> 将现在到指定版本的改动回退到工作区，比soft更彻底。会将暂存区清空，工作区改动会保留。</li>
+</ul>
+<p>不同模式的最大区别是在于工作区与暂存区文件的存留，总的来说，reset更像是goto，前往某个版本。</p>
+<p>个人功能分支使用 reset 直接进行回退而不留下记录</p>
+<p>main分支建议使用 revert 进行回退，留下记录</p>
+<blockquote>
+<p>单个文件的回退可以用 checkout – file 将工作区的改动丢弃</p>
+</blockquote>
+<p>假如你想丢弃你在本地的所有改动与提交，可以到服务器上获取最新的版本历史，并将你本地主分支指向它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin</span><br><span class="line">git reset --hard origin/master</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-branch"><a href="#2-6-branch" class="headerlink" title="2.6 branch"></a>2.6 branch</h3><p>几乎每一种版本控制系统都以某种形式支持分支，一个分支代表一条独立的开发线。</p>
+<p>使用分支意味着你可以从开发主线上分离开来，然后在不影响主线的同时继续工作。</p>
+<ul>
+<li><code>git branch</code> 查看本地分支</li>
+<li><code>git branch -c branch_name</code> 新建分支</li>
+<li><code>git branch -d branch_name</code> 删除指定分支</li>
+</ul>
+<h3 id="2-7-checkout"><a href="#2-7-checkout" class="headerlink" title="2.7 checkout"></a>2.7 checkout</h3><p>git-checkout - <strong>切换分支或恢复工作树文件</strong>,很百搭的一个命令，功能太多以至于现在在被拆分</p>
+<ul>
+<li>切换分支：<code>git checkout branch_name</code></li>
+<li>创建新分支并切换：<code>git checkout -b branch_name</code></li>
+<li>放弃工作区中的修改：<code>git checkout -- filename</code></li>
+</ul>
+<h3 id="2-8-merge"><a href="#2-8-merge" class="headerlink" title="2.8 merge"></a>2.8 merge</h3><p>git-merge - 将两个或多个开发历史连接在一起</p>
+<p><code>git merge branch_name</code></p>
+<h2 id="3-远程基本操作"><a href="#3-远程基本操作" class="headerlink" title="3 远程基本操作"></a>3 远程基本操作</h2><h3 id="3-1-remote"><a href="#3-1-remote" class="headerlink" title="3.1 remote"></a>3.1 remote</h3><ul>
+<li>显示所有远程仓库：<code>git remote -v</code></li>
+<li>显示某个版本库信息：<code>git remote show [remote]</code></li>
+<li>删除远程库：<code>git remote rm name</code></li>
+<li>添加远程仓库：<code>git remote add [name] [url]</code></li>
+</ul>
+<h3 id="3-2-fetch"><a href="#3-2-fetch" class="headerlink" title="3.2 fetch"></a>3.2 fetch</h3><p>从远程获取代码库</p>
+<p><code>git fetch</code></p>
+<h3 id="3-3-pull"><a href="#3-3-pull" class="headerlink" title="3.3 pull"></a>3.3 pull</h3><p><strong>git pull</strong> 命令用于从远程获取代码并合并本地的版本。</p>
+<p><strong>git pull</strong> 其实就是 <strong>git fetch</strong> 和 <strong>git merge FETCH_HEAD</strong> 的简写</p>
+<p><code>git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</code></p>
+<p>执行过一次之后可以只写 <code>git pull</code></p>
+<h3 id="3-4-push"><a href="#3-4-push" class="headerlink" title="3.4 push"></a>3.4 push</h3><p><strong>git push</strong> 命令用于从将本地的分支版本上传到远程并合并。</p>
+<p><code>git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</code></p>
+<p>如果本地分支名与远程分支名相同，则可以省略冒号：</p>
+<p><code>git push &lt;远程主机名&gt; &lt;本地分支名&gt;</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2022/07/24/Docker%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/" rel="next" title="Docker常用操作指北">
+                  <i class="fa fa-chevron-left"></i> Docker常用操作指北
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GIT"><span class="nav-number">1.</span> <span class="nav-text">GIT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装"><span class="nav-number">1.1.</span> <span class="nav-text">1. 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-本地基本操作"><span class="nav-number">1.2.</span> <span class="nav-text">2. 本地基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-0-用户操作"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.0 用户操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-初始化"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.1 初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-status"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.2  status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-add"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.3 add</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-commit"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.4 commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-reset"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.5 reset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-branch"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.6 branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-checkout"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.7 checkout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-merge"><span class="nav-number">1.2.9.</span> <span class="nav-text">2.8 merge</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-远程基本操作"><span class="nav-number">1.3.</span> <span class="nav-text">3 远程基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-remote"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 remote</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-fetch"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 fetch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-pull"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 pull</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-push"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 push</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/click.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript"
+  color="220,220,220" opacity='0.7' zIndex="-2" count="200" src=" //cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+</body>
+</html>
+
+
+

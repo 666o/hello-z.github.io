@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Docker一些常见的操作命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker常用操作指北">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2022&#x2F;07&#x2F;24&#x2F;Docker%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="Docker一些常见的操作命令">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-07-24T15:39:32.963Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/07/24/Docker%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Docker常用操作指北 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/07/24/Docker%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker常用操作指北
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-24 23:34:40 / 修改时间：23:39:32" itemprop="dateCreated datePublished" datetime="2022-07-24T23:34:40+08:00">2022-07-24</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>一些常见的操作命令</p>
+<a id="more"></a>
+
+<p>安装： <a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">https://docs.docker.com/engine/install/</a></p>
+<h2 id="1-Dokcerfile"><a href="#1-Dokcerfile" class="headerlink" title="1. Dokcerfile"></a>1. Dokcerfile</h2><p>官方文档：<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank" rel="noopener">https://docs.docker.com/develop/develop-images/dockerfile_best-practices/</a></p>
+<p>注意：Dockerfile 的指令每执行一次都会在 docker 上新建一层。所以过多无意义的层，会造成镜像膨胀过大。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">RUN yum install wget</span><br><span class="line">RUN wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz"</span><br><span class="line">RUN tar -xvf redis.tar.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 以上执行会创建 3 层镜像。可简化为以下格式：</span></span><br><span class="line">FROM centos</span><br><span class="line">RUN yum install wget \</span><br><span class="line">    &amp;&amp; wget -O redis.tar.gz "http://download.redis.io/releases/redis-5.0.3.tar.gz" \</span><br><span class="line">    &amp;&amp; tar -xvf redis.tar.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如上，以 &amp;&amp; 符号连接命令，这样执行后，只会创建 1 层镜像。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-FROM"><a href="#1-1-FROM" class="headerlink" title="1.1 FROM"></a>1.1 FROM</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># from imagename:version</span><br><span class="line">from python:3.6</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-ENV"><a href="#1-2-ENV" class="headerlink" title="1.2 ENV"></a>1.2 ENV</h3><p>设置环境变量指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> method_1</span></span><br><span class="line">ENV WORKPATH /tmp</span><br><span class="line">ENV myName John Doe</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> method_2</span></span><br><span class="line">ENV abc=bye def=$abc</span><br></pre></td></tr></table></figure>
+
+<p>第一种用法用于设置单个变量(第一个空格前为key，之后都是value,包括后面的空格)，第二种用于同时设置多个变量(空格为分隔符，value中包含空格时可以用双引号把value括起来，或者在空格前加反斜线)，当需要同时设置多个环境变量时推荐使用第二种格式。这些环境变量可以通过docker run命令的–env参数来进行修改。</p>
+<p>当环境变量很多时， 可以使用env_file指定对应的变量文件</p>
+<h3 id="1-3-MAINTAINER-amp-LABEL"><a href="#1-3-MAINTAINER-amp-LABEL" class="headerlink" title="1.3 MAINTAINER&amp;LABEL"></a>1.3 MAINTAINER&amp;LABEL</h3><p>设置创建镜像的作者信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">这里写了多份，仅为展示效果，实际只能有一份</span></span><br><span class="line">MAINTAINER china.succ</span><br><span class="line">MAINTAINER yasuo</span><br><span class="line">MAINTAINER yasuo@qq.com</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> LABEL可以有多份</span></span><br><span class="line">LABEL version = "1.0"</span><br><span class="line">LABEL description="succ.edu"</span><br><span class="line">LABEL createdate ="2022-05-01</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-RUN"><a href="#1-4-RUN" class="headerlink" title="1.4 RUN"></a>1.4 RUN</h3><p><strong>在构建docker 镜像时执行</strong></p>
+<p>用于执行后面跟着的命令行命令。有以下俩种格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。</span></span><br><span class="line">RUN chown user2:user2 /home/webapi (以shell形式执行命令，等同于/bin/sh -c);</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">exec</span> 格式(注意此处必须是双引号(<span class="string">")，因为这种格式被解析为JSON数组。)：</span></span></span><br><span class="line">RUN ["可执行文件", "参数1", "参数2"]</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-5-ARG"><a href="#1-5-ARG" class="headerlink" title="1.5 ARG"></a>1.5 ARG</h3><p>在Dockerfile中使用，仅仅在build docker image的过程中（包括CMD和ENTRYPOINT）有效，在image被创建和container启动之后，无效。</p>
+<p>如果在Dockerfile中使用了ARG但并未给定初始值，则在运行docker build的时候未指定该ARG变量，则会失败。在FROM 之后RUN 前要重新定义前面FROM前的ARG</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine</span><br><span class="line">ARG my_variable</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者在Dockerfile中硬编码指定缺省值</span></span><br><span class="line"><span class="meta">#</span><span class="bash">ARG my_variable=default_value</span></span><br><span class="line">RUN echo Oh my god,$my_variable yyds!</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">在命令行编译</span></span><br><span class="line">docker build --build-arg my_variable='猪八戒'  -t srv-test-img</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-WORKDIR"><a href="#1-6-WORKDIR" class="headerlink" title="1.6 WORKDIR"></a>1.6 WORKDIR</h3><p>WORKDIR指令用来设置Dockerfile中任何使用目录的命令的当前工作目录，此目录如果不存在就会被自动创建，即使这个目录不被使用</p>
+<p>指明通过docker exec -it 进入容器内部后，默认进入的工作目录</p>
+<p><code>WORKDIR /mydir</code></p>
+<h3 id="1-7-VOLUME"><a href="#1-7-VOLUME" class="headerlink" title="1.7 VOLUME"></a>1.7 VOLUME</h3><p>容器运行时应该尽量保持容器存储层不发生写操作，对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中。为了防止运行时用户忘记将动态文件所保存目录挂载为卷，在Dockerfile 中，我们可以事先指定某些目录挂载为匿名卷，这样在运行时如果用户不指定挂载，其应用也可以正常运行，不会向容器存储层写入大量数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VOLUME ["/data"]      (exec格式指令)</span><br><span class="line">VOLUME /usr/mydata</span><br><span class="line"><span class="meta">#</span><span class="bash"> VOLUME指令只是起到了声明了容器中的目录作为匿名卷，但是并没有将匿名卷绑定到宿主机指定目录的功能。</span></span><br></pre></td></tr></table></figure>
+
+<p><code>volume</code>只是指定了一个目录，用以在用户忘记启动时指定-v参数也可以保证容器的正常运行。比如mysql，你不能说用户启动时没有指定<code>-v</code>，然后删了容器，就把mysql的数据文件都删了，那样生产上是会出大事故的，所以mysql的dockerfile里面就需要配置<code>volume</code>，这样即使用户没有指定<code>-v</code>，容器被删后也不会导致数据文件都不在了。还是可以恢复的。</p>
+<p>如果-v和volume指定了不同的位置,会以<code>-v</code>设定的目录为准，其实<code>volume</code>指令的设定的目的就是为了避免用户忘记指定<code>-v</code>的时候导致的数据丢失，那么如果用户指定了<code>-v</code>，自然而然就不需要volume指定的位置了。</p>
+<h3 id="1-8-COPY-amp-ADD"><a href="#1-8-COPY-amp-ADD" class="headerlink" title="1.8 COPY &amp; ADD"></a>1.8 COPY &amp; ADD</h3><p>COPY &amp;  ADD指令能够将构建命令所在的主机本地的文件或目录，复制到镜像文件系统。</p>
+<p>add除了复制，还具备添加远程文件功能（文件以http://开头），类似于linux的wget</p>
+<p>add是增强版的copy，add自带解压，copy不带解压。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">exec</span>用法</span></span><br><span class="line">COPY ["&lt;src1&gt;","&lt;src2&gt;",... "&lt;dest&gt;"]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> shell用法</span></span><br><span class="line">COPY &lt;src&gt;... &lt;dest&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 示例</span></span><br><span class="line">COPY a.txt /usr/text/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 多个源文件</span></span><br><span class="line">COPY a.txt b.txt /usr/text/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 通配符形式</span></span><br><span class="line">COPY hom* /mydir/COPY hom?.txt /mydir/</span><br></pre></td></tr></table></figure>
+
+<p>ADD指令不支持认证，从远程获取资源如果需要认证（交互），则只能使用RUN wget或RUN curl替代。</p>
+<p>如果不是需要解压，优先使用COPY命令，效率更高更节省资源。 </p>
+<h3 id="1-9-EXPOSE"><a href="#1-9-EXPOSE" class="headerlink" title="1.9 EXPOSE"></a>1.9 EXPOSE</h3><p>指令用于标明，这个镜像中的应用将会侦听某个端口，并且希望能将这个端口映射到主机的网络界面上。但是，为了安全，docker run命令如果没有带上响应的端口映射参数，docker并不会将端口映射到宿主机。</p>
+<p>只是一个声明 规范化Dockerfile,使对外暴露的端口一目了然</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE &lt;端口&gt; [&lt;端口&gt;...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-10-CMD-amp-ENTRYPOINT"><a href="#1-10-CMD-amp-ENTRYPOINT" class="headerlink" title="1.10 CMD &amp; ENTRYPOINT"></a>1.10 CMD &amp; ENTRYPOINT</h3><p>都是执行命令，但是它们的执行时机是不同的</p>
+<ul>
+<li>RUN 仅在Build构建时执行的命令</li>
+<li>CMD 用来设置容器启动后默认执行的命令(参数)，它可被docker run后面的命令参数替换</li>
+<li>ENTRYPOINT 容器run启动时执行的命令</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> shell写法 命令<span class="built_in">command</span>默认是在“/bin/sh -c”下执行的</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> shell写法将不会把 run 命令或者 cmd 后的参数传入ENTRYPOINT</span></span><br><span class="line">CMD echo "YYDS"</span><br><span class="line">ENTRYPOINT echo "Hello world"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">注：-ef 查看进程的完整格式，它不是一个单独的命令，而是ps后面跟的参数,CMD将作为参数传入 ENTRYPOINT</span></span><br><span class="line">ENTRYPOINT ["ps"]</span><br><span class="line">CMD ["-ef"]</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>CMD命令，在Dockerfile中，可以单独使用，但不一定会别执行，也可以作为enterpoint命令的一部分，作为参数使用。</li>
+<li>Dockerfile中如果存在多个CMD指令，仅最后一个生效。</li>
+<li>ENTRYPOINT如果在Dockerfile中有多个，则仅最后一个会被运行。</li>
+<li>如果在Dockerfile中即使用了ENTRYPOINT，也使用了CMD，两者会被合并执行，CMD作为前者的默认参数使用</li>
+<li>docker run命令末尾，可以添加参数覆盖Dockerfile中CMD的默认参数，更为灵活。例： <code>docker run nginx:run ls</code> 最后的 <code>ls</code>优先级比较高，会覆盖CMD，相当于把它替换为CMD [“-aux”]</li>
+</ol>
+<h2 id="2-镜像操作"><a href="#2-镜像操作" class="headerlink" title="2. 镜像操作"></a>2. 镜像操作</h2><p>当运行容器时，使用的镜像如果在本地中不存在，docker 就会自动从 docker 镜像仓库中下载，默认是从 Docker Hub 公共镜像源下载。</p>
+<h3 id="3-1-构建镜像"><a href="#3-1-构建镜像" class="headerlink" title="3.1 构建镜像"></a>3.1 构建镜像</h3><p>docker build -t 镜像名：版本号 上下文位置（默认为 .）</p>
+<p>会默认使用当前目录的Dockerfile进行编译镜像</p>
+<p>[OPTIONS]:</p>
+<ul>
+<li><p><code>-t</code>: 指定镜像的名字</p>
+</li>
+<li><p><code>-f</code>: 显示指定Dockerfile</p>
+</li>
+<li><p><code>--build-arg=[]</code>: 设置镜像创建时的变量</p>
+</li>
+<li><p><code>-m</code>: 设置内存最大值</p>
+</li>
+<li><p><code>--quiet, -q</code>: 安静模式，成功后只输出镜像 ID</p>
+</li>
+<li><p><code>--no-cache</code>: 创建镜像的过程不使用缓存</p>
+</li>
+<li><p><code>--network</code>:  默认 default。在构建期间设置RUN指令的网络模式</p>
+</li>
+</ul>
+<h3 id="3-2-查看镜像列表"><a href="#3-2-查看镜像列表" class="headerlink" title="3.2 查看镜像列表"></a>3.2 查看镜像列表</h3><p><code>docker images</code> or <code>docker image ls</code></p>
+<h3 id="3-3-获取新镜像"><a href="#3-3-获取新镜像" class="headerlink" title="3.3 获取新镜像"></a>3.3 获取新镜像</h3><p><code>docker pull imagename:tag</code></p>
+<h3 id="3-4-查询镜像"><a href="#3-4-查询镜像" class="headerlink" title="3.4 查询镜像"></a>3.4 查询镜像</h3><ul>
+<li><p><a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub </a>搜索镜像</p>
+</li>
+<li><p><code>docker search keywords</code> 搜索镜像</p>
+</li>
+</ul>
+<h3 id="3-5-删除镜像"><a href="#3-5-删除镜像" class="headerlink" title="3.5 删除镜像"></a>3.5 删除镜像</h3><p><code>docker rmi hello-world</code></p>
+<h2 id="3-容器操作"><a href="#3-容器操作" class="headerlink" title="3. 容器操作"></a>3. 容器操作</h2><h3 id="3-1-启动容器"><a href="#3-1-启动容器" class="headerlink" title="3.1 启动容器"></a>3.1 启动容器</h3><p><code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code></p>
+<p>参数：</p>
+<ul>
+<li><p><code>-e</code>: 设置环境变量</p>
+</li>
+<li><p><code>--name</code>: 为容器指定一个名称</p>
+</li>
+<li><p><code>-t</code>: 为容器重新分配一个伪输入终端，通常与 -i 同时使用</p>
+</li>
+<li><p><code>-i</code>: 以交互模式运行容器，通常与 -t 同时使用</p>
+</li>
+<li><p><code>-d</code>: 后台运行容器，并返回容器ID</p>
+</li>
+<li><p><code>-p</code>: 指定端口映射，格式为：主机(宿主)端口:容器端口 -p 80:8080</p>
+</li>
+<li><p><code>-v</code>: 宿主机目录:容器目录。将宿主机目录挂载到容器内</p>
+</li>
+<li><p><code>--net=default</code>: 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型</p>
+</li>
+<li><p><code>--restart</code></p>
+<ul>
+<li>unless-stopped 在容器退出时总是重启容器，但是不考虑Docker守护进程启动时就已停止的</li>
+<li>no(不自动重启)</li>
+<li>on-failure:3    在容器非正常退出时（退出状态非0），才会重启容器，最多重启三次</li>
+<li>always 在容器退出时总是重启容器</li>
+</ul>
+</li>
+<li><p><code>--health-cmd</code>: 运行命令以检查健康</p>
+</li>
+</ul>
+<p>启动已停止的容器：<code>docker start 容器ID</code></p>
+<h3 id="3-2-停止容器"><a href="#3-2-停止容器" class="headerlink" title="3.2 停止容器"></a>3.2 停止容器</h3><p><code>docker stop CONTAINER</code></p>
+<h3 id="3-3-删除容器"><a href="#3-3-删除容器" class="headerlink" title="3.3 删除容器"></a>3.3 删除容器</h3><p><code>docker rm CONTAINER</code></p>
+<h3 id="3-4-查案容器日志"><a href="#3-4-查案容器日志" class="headerlink" title="3.4 查案容器日志"></a>3.4 查案容器日志</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker logs [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">`docker logs -tail 10 CONTAINER`</span><br><span class="line">`docker logs -f CONTAINER`</span><br><span class="line">`docker logs --since="2016-07-01" CONTAINER`</span><br></pre></td></tr></table></figure>
+
+<p>[OPTIONS]：</p>
+<ul>
+<li><code>-f</code>: 跟踪日志输出</li>
+<li><code>--since</code>: 显示某个开始时间的所有日志</li>
+<li><code>t</code>: 显示时间戳</li>
+<li><code>--tail</code>：仅列出最新N条容器日志</li>
+</ul>
+<h3 id="3-5-进入-amp-退出容器"><a href="#3-5-进入-amp-退出容器" class="headerlink" title="3.5 进入&amp;退出容器"></a>3.5 进入&amp;退出容器</h3><p>进入：</p>
+<ul>
+<li><strong>docker exec</strong>：<code>docker exec -it CONTAINER /bin/bash</code></li>
+<li><strong>docker attach</strong>： <code>docker attach CONTAINER</code></li>
+</ul>
+<p>退出：</p>
+<ul>
+<li>exec 进入的：<code>cmd: exit</code></li>
+<li>attach进入的：<code>ctrl+p+q</code></li>
+</ul>
+<h3 id="3-6-查看所有容器"><a href="#3-6-查看所有容器" class="headerlink" title="3.6 查看所有容器"></a>3.6 查看所有容器</h3><p><code>docker ps [OPTIONS]</code></p>
+<p>[OPTIONS]：</p>
+<ul>
+<li><code>-a</code>: 显示所有的容器，包括未运行的</li>
+<li><code>-f</code>: 根据条件过滤显示的内容</li>
+<li><code>-l</code>: 显示最近创建的容器</li>
+<li><code>-n</code>: 列出最近创建的n个容器</li>
+<li><code>-q</code>: 静默模式，只显示容器编号</li>
+<li><code>-s</code>: 显示总的文件大小</li>
+</ul>
+<h3 id="3-7-查看容器"><a href="#3-7-查看容器" class="headerlink" title="3.7 查看容器"></a>3.7 查看容器</h3><p>查看内部进程：<code>docker top CONTAINER</code></p>
+<p>查看底层信息：<code>docker inspect CONTAINER</code></p>
+<p>查看端口映射信息：<code>docker port CONTAINER</code></p>
+<h3 id="3-8-容器数据拷贝"><a href="#3-8-容器数据拷贝" class="headerlink" title="3.8 容器数据拷贝"></a>3.8 容器数据拷贝</h3><p><code>dockers cp CONTAINER:SRC_PATH DEST_PATH</code></p>
+<p><code>dockers cp DEST_PATH CONTAINER:SRC_PATH</code></p>
+<p>docker可以避免 crontab 启动脚本时，环境不对的问题，可以在crontab中写</p>
+<p><code>5 * * * * docker start spider</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2022/01/24/%E6%9D%82%E8%B0%88-%E6%97%A0%E9%99%90debugger/" rel="next" title="杂谈-无限debugger">
+                  <i class="fa fa-chevron-left"></i> 杂谈-无限debugger
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2022/07/24/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/" rel="prev" title="Git常用操作指北">
+                  Git常用操作指北 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-number">1.</span> <span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Dokcerfile"><span class="nav-number">1.1.</span> <span class="nav-text">1. Dokcerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-FROM"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 FROM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-ENV"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 ENV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-MAINTAINER-amp-LABEL"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 MAINTAINER&amp;LABEL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-RUN"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-ARG"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 ARG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-WORKDIR"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 WORKDIR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-VOLUME"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 VOLUME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-COPY-amp-ADD"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.8 COPY &amp; ADD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9-EXPOSE"><span class="nav-number">1.1.9.</span> <span class="nav-text">1.9 EXPOSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-10-CMD-amp-ENTRYPOINT"><span class="nav-number">1.1.10.</span> <span class="nav-text">1.10 CMD &amp; ENTRYPOINT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-镜像操作"><span class="nav-number">1.2.</span> <span class="nav-text">2. 镜像操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-构建镜像"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.1 构建镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-查看镜像列表"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.2 查看镜像列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-获取新镜像"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.3 获取新镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-查询镜像"><span class="nav-number">1.2.4.</span> <span class="nav-text">3.4 查询镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-删除镜像"><span class="nav-number">1.2.5.</span> <span class="nav-text">3.5 删除镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-容器操作"><span class="nav-number">1.3.</span> <span class="nav-text">3. 容器操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-启动容器"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-停止容器"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 停止容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-删除容器"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 删除容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-查案容器日志"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 查案容器日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-进入-amp-退出容器"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 进入&amp;退出容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-查看所有容器"><span class="nav-number">1.3.6.</span> <span class="nav-text">3.6 查看所有容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-查看容器"><span class="nav-number">1.3.7.</span> <span class="nav-text">3.7 查看容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-容器数据拷贝"><span class="nav-number">1.3.8.</span> <span class="nav-text">3.8 容器数据拷贝</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/click.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript"
+  color="220,220,220" opacity='0.7' zIndex="-2" count="200" src=" //cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+</body>
+</html>
+
+
+
