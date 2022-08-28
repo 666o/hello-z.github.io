@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/dq32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/dq16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="小鐘のblog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Tmux使用指北这里引用 Tmux 在 GitHub 上的简介来介绍它自己  tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tmux使用指北">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2022&#x2F;08&#x2F;28&#x2F;Tmux%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97&#x2F;index.html">
+<meta property="og:site_name" content="小鐘のblog">
+<meta property="og:description" content="Tmux使用指北这里引用 Tmux 在 GitHub 上的简介来介绍它自己  tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattac">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-08-28T11:24:12.104Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/08/28/Tmux%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Tmux使用指北 | 小鐘のblog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小鐘のblog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">笑恨平生,不存欢愉</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/08/28/Tmux%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/test.png">
+      <meta itemprop="name" content="小钟">
+      <meta itemprop="description" content="愿有朝一日鲜衣怒马">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鐘のblog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tmux使用指北
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-28 19:23:18 / 修改时间：19:24:12" itemprop="dateCreated datePublished" datetime="2022-08-28T19:23:18+08:00">2022-08-28</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Tmux使用指北"><a href="#Tmux使用指北" class="headerlink" title="Tmux使用指北"></a>Tmux使用指北</h1><p>这里引用 <code>Tmux</code> 在 <code>GitHub</code> 上的简介来介绍它自己</p>
+<blockquote>
+<p>tmux is a terminal multiplexer. It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.</p>
+</blockquote>
+<p>简单来说，<code>Tmux</code> 能帮助你构建多个长期的终端，而不是随着你的ssh链接的关闭而关闭，这将非常的实用，当你需要在服务器上部署大量项目时。</p>
+<a id="more"></a>
+
+<p>官方文档及优秀教程：</p>
+<ul>
+<li>官方wiki：<a href="https://github.com/tmux/tmux/wiki" target="_blank" rel="noopener">https://github.com/tmux/tmux/wiki</a></li>
+<li>阮一峰的网络日志：<a href="https://www.ruanyifeng.com/blog/2019/10/tmux.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/10/tmux.html</a></li>
+<li>无涯教程：<a href="http://www.learnfk.com/linux/linux-command-tmux.html" target="_blank" rel="noopener">http://www.learnfk.com/linux/linux-command-tmux.html</a></li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>参见官方安装教程：<a href="https://github.com/tmux/tmux/wiki/Installing" target="_blank" rel="noopener">tmux installing</a></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>在 <code>Tmux</code> 的逻辑中，我理解为四个层级 <code>Server =&gt; Session =&gt; Window =&gt; Pane</code></p>
+<ul>
+<li><p>Server：<code>Tmux</code> 服务进程，包含所有 <code>Session</code> 信息</p>
+</li>
+<li><p>Session：当我们用ssh连接服务器时，这种用户与计算机临时的交互叫做Session（会话），会话的重要特点是，会话中启动的进程与会话是联系在一起的。<code>Tmux</code> 中的一个Sessioin就像是一次ssh连接，不同的是他能保存和脱离会话，将Session放在后台持续运行。</p>
+</li>
+<li><p>Window：相当于一个工作区，包含很多 <code>Pane</code> ,可以针对每种组件分一个Window。</p>
+</li>
+<li><p>Pane：是在 <code>Window</code> 中的小分屏。</p>
+</li>
+</ul>
+<p>我个人习惯一个项目开一个 <code>Session</code> ，然后项目中的每个组件开一个 <code>Window</code> ，根据组件的情况来开 <code>Pane</code> ,例如日志的监控一个 <code>Pane</code>, 进程的启动一个 <code>Pane</code></p>
+<h2 id="外部常用命令"><a href="#外部常用命令" class="headerlink" title="外部常用命令"></a>外部常用命令</h2><p>ps:这里的外部是指在外部终端窗口，与 <code>Tmux</code> 内部 <code>Session</code> 做区分</p>
+<h3 id="启动新Session"><a href="#启动新Session" class="headerlink" title="启动新Session"></a>启动新Session</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 不指定Session名，session名将用数字</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tmux</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定session名</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tmux new -s session_name</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定window名</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tmux new -n window_name</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="恢复已有session"><a href="#恢复已有session" class="headerlink" title="恢复已有session"></a>恢复已有session</h3><p><code>tmux a -t session_name</code></p>
+<p>or</p>
+<p><code>tmux at -t session_name</code></p>
+<h3 id="查询现有session"><a href="#查询现有session" class="headerlink" title="查询现有session"></a>查询现有session</h3><p><code>tmux ls</code></p>
+<h3 id="关闭已有session"><a href="#关闭已有session" class="headerlink" title="关闭已有session"></a>关闭已有session</h3><p><code>tmux kill-session -t session_name</code></p>
+<h3 id="关闭tmux-Server"><a href="#关闭tmux-Server" class="headerlink" title="关闭tmux Server"></a>关闭tmux Server</h3><p><code>tmux kill-server</code></p>
+<p>ps：有时候更改 <code>Tmux</code> 配置不生效，就要使用该命令进行重启</p>
+<h3 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h3><p><code>tmux rename-session -t old_session_name new_session_name</code></p>
+<h2 id="内部常用命令"><a href="#内部常用命令" class="headerlink" title="内部常用命令"></a>内部常用命令</h2><blockquote>
+<p>所谓<code>内部命令</code>，就是进入 <code>Tmux</code> 中，并按下<code>前缀按键</code>后的命令，一般前缀键为<code>Ctrl+b</code>. 可在配置文件中更改前缀按键</p>
+</blockquote>
+<p>在这里前置命令使用：<code>prefix</code> 来代替</p>
+<h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 脱离会话，退出 tmux</span></span><br><span class="line">prefix + d</span><br><span class="line">or</span><br><span class="line">$ tmux detach</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有session信息并切换</span></span><br><span class="line">prefix + s</span><br><span class="line"><span class="comment"># 上下切换session，左右切换window，回车确认切换目标</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换当前session内的window</span></span><br><span class="line">prefix + w</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名当前session</span></span><br><span class="line">prefix + $</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新配置文件</span></span><br><span class="line">prefix + : <span class="comment"># 进入命令行 再输入reloaded</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载和更新插件</span></span><br><span class="line">prefix + I</span><br></pre></td></tr></table></figure>
+
+<h3 id="window"><a href="#window" class="headerlink" title="window"></a>window</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建新window</span></span><br><span class="line">prefix + c</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭当前window</span></span><br><span class="line">prefix + &amp;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到指定window</span></span><br><span class="line">prefix + 数字键</span><br><span class="line">or</span><br><span class="line">prefix + w</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到下一window</span></span><br><span class="line">prefix + n</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到上一window</span></span><br><span class="line">prefix + p</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 返回之前window</span></span><br><span class="line">prefix + l</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重命名该window</span></span><br><span class="line">prefix + ,</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改当前窗口编号；相当于窗口重新排序</span></span><br><span class="line">prefix + .</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在所有窗口中查找文本</span></span><br><span class="line">perfix + f</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="pane"><a href="#pane" class="headerlink" title="pane"></a>pane</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将当前pane平分为上下两块</span></span><br><span class="line">prefix + "</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将当前pane平分为左右两块</span></span><br><span class="line">prefix + %</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭当前pane</span></span><br><span class="line">prefix + x</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将当前pane置于新window；即新建一个窗口，其中仅包含当前pane</span></span><br><span class="line">prefix + !</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 调整pane大小</span></span><br><span class="line">prefix + ctrl + 方向键</span><br><span class="line">or</span><br><span class="line">按住prefix + 方向键</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入复制模式，可以往上翻页</span></span><br><span class="line">prefix + [</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使当前pane临时占满window</span></span><br><span class="line">prefix + z</span><br><span class="line">退出同键</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择pane</span></span><br><span class="line">prefix + 方向键</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 调整pane位置</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 前置</span></span><br><span class="line">prefix + &#123;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 后置</span></span><br><span class="line">prefix + &#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 顺时针旋转window下所有pane</span></span><br><span class="line">prefix + Ctrl + o</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p><code>Tmux</code> 是开箱即用的，不需要特别配置，以下只是为了方便个人使用</p>
+<p>配置文件的位置放在 <code>~/.tmux.conf</code> ，避免影响他人，修改之后需要在session中重新加载 or 重启 tmux服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 更换前置按键</span></span><br><span class="line">unbind C-b</span><br><span class="line">set -g prefix C-a</span><br><span class="line">bind C-a send-prefix</span><br><span class="line"><span class="meta">#</span><span class="bash">第1-2行表示重新定义Prefix，把默认的 Ctrl+b 换成 Ctrl+a ，便于单手操作。 </span></span><br><span class="line"><span class="meta">#</span><span class="bash">第3行重新定义 Ctrl+a 组合键，当 Prefix + Ctrl+a 按下后，等同于原先 Ctrl+a 功能，解决Ctrl+a被设置为Prefix后已有快捷键失效的问题，也就是说只要按下两次 Ctrl+a ，就能实现原先终端下回到行首的功能。 </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将window和pane的默认起始值改为 1</span></span><br><span class="line">set -g base-index 1</span><br><span class="line">set -g pane-base-index 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将分屏改为 - 和 | 显得更为直观</span></span><br><span class="line">bind | split-window -h</span><br><span class="line">bind - split-window -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 鼠标支持</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 虽然Tmux推荐用键盘完成所有操作，但是对现代开发人员来说，纯键盘操作的习惯并非那么容易养成</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用鼠标</span></span><br><span class="line">set-window-option -g mode-mouse on</span><br><span class="line"><span class="meta">#</span><span class="bash"> 鼠标选择pane</span></span><br><span class="line">set -g mouse-select-pane on</span><br><span class="line"><span class="meta">#</span><span class="bash"> 鼠标调整pane大小</span></span><br><span class="line">set -g mouse-resize-pane on</span><br><span class="line"><span class="meta">#</span><span class="bash"> 鼠标选择window</span></span><br><span class="line">set -g mouse-select-window on</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> UI</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置window标签样式</span></span><br><span class="line">setw -g window-status-current-fg white</span><br><span class="line">setw -g window-status-current-bg red</span><br><span class="line">setw -g window-status-current-attr bright</span><br><span class="line"><span class="meta">#</span><span class="bash"> window列表左对齐</span></span><br><span class="line">set -g status-justify left</span><br><span class="line"><span class="meta">#</span><span class="bash"> 非当前window有内容更新时显示在状态栏</span></span><br><span class="line">setw -g monitor-activity on</span><br><span class="line"><span class="meta">#</span><span class="bash">设置终端颜色为256色  </span></span><br><span class="line">set -g default-terminal "xterm-256color"</span><br></pre></td></tr></table></figure>
+
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>如同配置文件，<code>Tmux</code> 自带功能已经很好用了，没有额外的需要就没必要装插件</p>
+<h3 id="Tmux-Resurrect"><a href="#Tmux-Resurrect" class="headerlink" title="Tmux-Resurrect"></a>Tmux-Resurrect</h3><p><code>Tmux</code> 虽然好用，但是也有一个缺点，就是关机之后打开的session就全消失了</p>
+<p>虽说服务器一般不会关机，但是根据笔者的经验，什么都说不准</p>
+<p>这个时候你就需要<code>Tmux-Resurrect</code>插件来了，<a href="https://github.com/tmux-plugins/tmux-resurrect" target="_blank" rel="noopener">地址如下</a></p>
+<h3 id="tmux-logging"><a href="#tmux-logging" class="headerlink" title="tmux-logging"></a>tmux-logging</h3><p>如名，记录tmux中所有操作、历史记录</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2022/07/24/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8C%97/" rel="next" title="Git常用操作指北">
+                  <i class="fa fa-chevron-left"></i> Git常用操作指北
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tmux使用指北"><span class="nav-number">1.</span> <span class="nav-text">Tmux使用指北</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外部常用命令"><span class="nav-number">1.3.</span> <span class="nav-text">外部常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动新Session"><span class="nav-number">1.3.1.</span> <span class="nav-text">启动新Session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复已有session"><span class="nav-number">1.3.2.</span> <span class="nav-text">恢复已有session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询现有session"><span class="nav-number">1.3.3.</span> <span class="nav-text">查询现有session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭已有session"><span class="nav-number">1.3.4.</span> <span class="nav-text">关闭已有session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭tmux-Server"><span class="nav-number">1.3.5.</span> <span class="nav-text">关闭tmux Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重命名会话"><span class="nav-number">1.3.6.</span> <span class="nav-text">重命名会话</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部常用命令"><span class="nav-number">1.4.</span> <span class="nav-text">内部常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session"><span class="nav-number">1.4.1.</span> <span class="nav-text">session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window"><span class="nav-number">1.4.2.</span> <span class="nav-text">window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pane"><span class="nav-number">1.4.3.</span> <span class="nav-text">pane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">1.5.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件"><span class="nav-number">1.6.</span> <span class="nav-text">插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tmux-Resurrect"><span class="nav-number">1.6.1.</span> <span class="nav-text">Tmux-Resurrect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tmux-logging"><span class="nav-number">1.6.2.</span> <span class="nav-text">tmux-logging</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="小钟"
+    src="/images/test.png">
+  <p class="site-author-name" itemprop="name">小钟</p>
+  <div class="site-description" itemprop="description">愿有朝一日鲜衣怒马</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/click.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript"
+  color="220,220,220" opacity='0.7' zIndex="-2" count="200" src=" //cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+</body>
+</html>
+
+
+
